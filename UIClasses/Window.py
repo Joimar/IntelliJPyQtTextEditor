@@ -2,8 +2,10 @@
 import sys
 
 from PyQt6 import QtWidgets
+from PyQt6.QtCore import QFileInfo, QUrl
 from PyQt6.QtWidgets import QFileDialog
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
+
 import os.path
 from UIFiles.UIMainWindow import Ui_MainWindow
 
@@ -17,17 +19,27 @@ class MainWindow(QMainWindow):
         self.ui.menuFile.triggered.connect(self.pressFile)
         self.ui.actionSave.triggered.connect(self.pressFileSave)
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
+        self.ui.actionOpen.triggered.connect(self.pressFileOpen)
 
     def pressFileNew(self):
         print("Novo arquivo")
+        file = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
 
+
+    def pressFileOpen(self):
+        file = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
+        print(file[0])
+        f = open(file[0], "r")
+        self.ui.plainTextEdit.setPlainText(f.read())
+        f.close()
     def pressFile(self):
         print("File")
 
     def pressFileSave(self):
         print("Save")
-        path = QFileDialog.getExistingDirectory(self, 'Select Folder')
-        print(path)
+        #path = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        file = QFileDialog.getOpenFileName(self, 'Saving As')
+        print(file)
 
     def saveFile(self):
         check_file = os.path.isfile("myfile.txt")
