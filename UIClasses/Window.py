@@ -1,7 +1,9 @@
 # This Python file uses the following encoding: utf-8
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QFileDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
 import os.path
 from UIFiles.UIMainWindow import Ui_MainWindow
 
@@ -13,7 +15,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.actionNew.triggered.connect(self.pressFileNew)
         self.ui.menuFile.triggered.connect(self.pressFile)
-        self.ui.actionSave.triggered.connect(self.saveFile)
+        self.ui.actionSave.triggered.connect(self.pressFileSave)
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
 
     def pressFileNew(self):
@@ -22,8 +24,10 @@ class MainWindow(QMainWindow):
     def pressFile(self):
         print("File")
 
-    def pressFileSave(filename):
+    def pressFileSave(self):
         print("Save")
+        path = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        print(path)
 
     def saveFile(self):
         check_file = os.path.isfile("myfile.txt")
@@ -35,4 +39,3 @@ class MainWindow(QMainWindow):
             f = open("myfile.txt", "x")
             f.write(self.ui.plainTextEdit.toPlainText())
             f.close()
-
