@@ -66,9 +66,3 @@ class MainWindow(QMainWindow):
                 self.setWindowTitle(self.extractFileName(file[0]))
             self.__current_file = file[0]
 
-    def checkFile(self, path):
-        if os.path.isfile(path):
-            return True
-        else:
-            return False
-
