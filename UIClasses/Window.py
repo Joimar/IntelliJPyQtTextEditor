@@ -40,7 +40,6 @@ class MainWindow(QMainWindow):
         self.current_file = file[0]
     def pressFileSave(self):
         print("Save")
-        #path = QFileDialog.getExistingDirectory(self, 'Select Folder')
         file = QFileDialog.getOpenFileName(self, 'Saving As')
         print(file)
 
