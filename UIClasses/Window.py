@@ -11,11 +11,10 @@ from UIFiles.UIMainWindow import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
-    current_file = ""
+    __current_file = ""
 
     def __init__(self, parent=None):
         super().__init__(parent)
-
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -25,10 +24,9 @@ class MainWindow(QMainWindow):
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
 
-
     def pressFileNew(self):
         print("Novo arquivo")
-        print(self.current_file)
+        print(self.__current_file)
 
     # Open Functionalities are done
     def pressFileOpen(self):
@@ -37,7 +35,8 @@ class MainWindow(QMainWindow):
         f = open(file[0], "r")
         self.ui.plainTextEdit.setPlainText(f.read())
         f.close()
-        self.current_file = file[0]
+        self.__current_file = file[0]
+
     def pressFileSave(self):
         print("Save")
         file = QFileDialog.getOpenFileName(self, 'Saving As')
