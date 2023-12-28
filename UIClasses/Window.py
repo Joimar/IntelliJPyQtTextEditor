@@ -66,3 +66,5 @@ class MainWindow(QMainWindow):
                 self.setWindowTitle(self.extractFileName(file[0]))
             self.__current_file = file[0]
 
+    def closeEvent(self, event):
+        print("Closing Window Event")
