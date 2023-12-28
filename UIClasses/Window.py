@@ -49,7 +49,6 @@ class MainWindow(QMainWindow):
             self.__current_file = file[0]
             print("current file: " + self.__current_file)
 
-
     def pressFileSave(self):
         print("Save")
         check_file = os.path.isfile(self.__current_file)
@@ -72,13 +71,4 @@ class MainWindow(QMainWindow):
             return True
         else:
             return False
-    def saveFile(self):
-        check_file = os.path.isfile("myfile.txt")
-        if check_file:
-            f = open("myfile.txt", "w")
-            f.write(self.ui.plainTextEdit.toPlainText())
-            f.close()
-        else:
-            f = open("myfile.txt", "x")
-            f.write(self.ui.plainTextEdit.toPlainText())
-            f.close()
+
