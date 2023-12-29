@@ -11,6 +11,7 @@ from UIFiles.UIMainWindow import Ui_MainWindow
 
 class MainWindow(QMainWindow):
     __current_file = ""
+    __file_changed = False
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -43,6 +44,7 @@ class MainWindow(QMainWindow):
 
         if os.path.exists(file[0]):
             self.setWindowTitle(self.extractFileName(file[0]))
+            self.ui.plainTextEdit.clear()
             f = open(file[0], "r")
             self.ui.plainTextEdit.setPlainText(f.read())
             f.close()
@@ -54,7 +56,7 @@ class MainWindow(QMainWindow):
         check_file = os.path.isfile(self.__current_file)
 
         if check_file:
-            f = open(self.__current_file, "a")
+            f = open(self.__current_file, "r+")
             f.write(self.ui.plainTextEdit.toPlainText())
             f.close()
         else:
