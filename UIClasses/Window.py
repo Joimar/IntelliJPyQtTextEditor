@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog
 from urllib.parse import urlparse
 import os.path
 from UIFiles.UIMainWindow import Ui_MainWindow
+from PyQt6.QtGui import QSyntaxHighlighter
 
 
 class MainWindow(QMainWindow):
@@ -23,6 +24,9 @@ class MainWindow(QMainWindow):
         self.ui.actionSave.triggered.connect(self.pressFileSave)
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
+
+        self.ui.plainTextEdit.textChanged.connect(lambda: print("testTextChanged"))
+
         self.setWindowTitle("Untitled")
 
     def extractFileName(self, url):
