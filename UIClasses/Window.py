@@ -88,3 +88,12 @@ class MainWindow(QMainWindow):
 
             returnValue = box.exec()
 
+            if returnValue == QMessageBox.StandardButton.Save:
+                print("Salvar")
+            elif returnValue == QMessageBox.StandardButton.Discard:
+                print("Descartar")
+            elif returnValue == QMessageBox.StandardButton.Cancel:
+                print("Cancelar")
+
+
+
