@@ -2,7 +2,7 @@
 import sys
 
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QPushButton
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 from urllib.parse import urlparse
 import os.path
@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
     def __setFileChanged(self, b):
         self.__file_changed = b
         print("Modificação")
+
     def extractFileName(self, url):
         a = urlparse(url)
         return os.path.basename(a.path)
@@ -77,3 +78,13 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         print("Closing Window Event")
+        if self.__file_changed == True:
+            print("Salvando")
+            box = QMessageBox()
+            box.setWindowTitle("Fechando")
+            box.setText("TEXTO")
+            box.setStandardButtons(
+                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel)
+
+            returnValue = box.exec()
+
