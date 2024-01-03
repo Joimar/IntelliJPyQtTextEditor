@@ -25,10 +25,13 @@ class MainWindow(QMainWindow):
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
 
-        self.ui.plainTextEdit.textChanged.connect(lambda: print("testTextChanged"))
+        self.ui.plainTextEdit.textChanged.connect(lambda: self.__setFileChanged(True))
 
         self.setWindowTitle("Untitled")
 
+    def __setFileChanged(self, b):
+        self.__file_changed = b
+        print("Modificação")
     def extractFileName(self, url):
         a = urlparse(url)
         return os.path.basename(a.path)
