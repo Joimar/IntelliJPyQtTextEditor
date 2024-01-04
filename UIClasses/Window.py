@@ -65,6 +65,7 @@ class MainWindow(QMainWindow):
 
         if check_file:
             f = open(self.__current_file, "r+")
+            f.truncate(0)
             f.write(self.ui.plainTextEdit.toPlainText())
             f.close()
         else:
@@ -87,13 +88,19 @@ class MainWindow(QMainWindow):
                 QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel)
 
             returnValue = box.exec()
-
+            print("Current File" + self.__current_file)
             if returnValue == QMessageBox.StandardButton.Save:
                 print("Salvar")
+                self.__file_changed = False
+                self.pressFileSave()
+                event.ignore()
+
             elif returnValue == QMessageBox.StandardButton.Discard:
                 print("Descartar")
+                event.accept()
             elif returnValue == QMessageBox.StandardButton.Cancel:
                 print("Cancelar")
+                event.ignore()
 
 
 
