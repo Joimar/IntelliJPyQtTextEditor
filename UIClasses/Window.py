@@ -1,14 +1,10 @@
 # This Python file uses the following encoding: utf-8
-import sys
 
-from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QFileDialog, QMessageBox, QPushButton
+from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 from urllib.parse import urlparse
 import os.path
 from UIFiles.UIMainWindow import Ui_MainWindow
-from PyQt6.QtGui import QSyntaxHighlighter
-
 
 class MainWindow(QMainWindow):
     __current_file = ""
