@@ -43,6 +43,7 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit.clear()
         self.setWindowTitle("Untitled")
         self.__current_file = ""
+        self.__setFileChanged(False)
 
     # Open Functionalities are done
     def pressFileOpen(self):
@@ -58,6 +59,8 @@ class MainWindow(QMainWindow):
             f.close()
             self.__current_file = file[0]
             print("current file: " + self.__current_file)
+
+        self.__setFileChanged(False)
 
     def pressFileSave(self):
         print("Save")
@@ -76,6 +79,7 @@ class MainWindow(QMainWindow):
                 f.close()
                 self.setWindowTitle(self.extractFileName(file[0]))
             self.__current_file = file[0]
+        self.__setFileChanged(False)
 
     def closeEvent(self, event):
         print("Closing Window Event")
