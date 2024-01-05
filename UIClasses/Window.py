@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 import os.path
 from UIFiles.UIMainWindow import Ui_MainWindow
 
+
 class MainWindow(QMainWindow):
     __current_file = ""
     __file_changed = False
@@ -26,15 +27,16 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Untitled")
 
     def __setFileChanged(self, b):
+        # set __file_changed to True or False
         self.__file_changed = b
-        print("Modificação")
 
     def extractFileName(self, url):
+        # extract the file name from the whole path string
         a = urlparse(url)
         return os.path.basename(a.path)
 
     def pressFileNew(self):
-        print("Novo arquivo")
+        # creates new file and cleans plaintext
         print(self.__current_file)
         self.ui.plainTextEdit.clear()
         self.setWindowTitle("Untitled")
@@ -43,6 +45,7 @@ class MainWindow(QMainWindow):
 
     # Open Functionalities are done
     def pressFileOpen(self):
+        # Opens a specific txt file selected by user
         file = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
         print(file[0])
         print(self.extractFileName(file[0]))
@@ -54,12 +57,11 @@ class MainWindow(QMainWindow):
             self.ui.plainTextEdit.setPlainText(f.read())
             f.close()
             self.__current_file = file[0]
-            print("current file: " + self.__current_file)
 
         self.__setFileChanged(False)
 
     def pressFileSave(self):
-        print("Save")
+        # save a file or modification when user clicks in save option
         check_file = os.path.isfile(self.__current_file)
 
         if check_file:
@@ -78,29 +80,22 @@ class MainWindow(QMainWindow):
         self.__setFileChanged(False)
 
     def closeEvent(self, event):
-        print("Closing Window Event")
+        # overwritten method to trigger an event when user closes the program
+        # calls a dialog asking if user wants to save or discard the changes
         if self.__file_changed == True:
-            print("Salvando")
             box = QMessageBox()
-            box.setWindowTitle("Fechando")
-            box.setText("TEXTO")
+            box.setWindowTitle("Program Name")
+            box.setText("Do you want to save the changes?")
             box.setStandardButtons(
                 QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel)
 
             returnValue = box.exec()
-            print("Current File" + self.__current_file)
             if returnValue == QMessageBox.StandardButton.Save:
-                print("Salvar")
                 self.__file_changed = False
                 self.pressFileSave()
                 event.ignore()
 
             elif returnValue == QMessageBox.StandardButton.Discard:
-                print("Descartar")
                 event.accept()
             elif returnValue == QMessageBox.StandardButton.Cancel:
-                print("Cancelar")
                 event.ignore()
-
-
-
