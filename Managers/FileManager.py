@@ -7,6 +7,7 @@ class FileManager:
     __file = ""
 
     def checkFile(self, str):
+
         if os.path.isfile(str):
             return True
         else:
@@ -24,5 +25,15 @@ class FileManager:
             f.write(content)
             f.close()
 
+        except FileExistsError as error:
+            print(error)
+
+    def read(self, name):
+
+        try:
+            f = open(name, "r")
+            content = f.read()
+            f.close()
+            return content
         except FileExistsError as error:
             print(error)
