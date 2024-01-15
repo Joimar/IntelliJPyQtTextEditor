@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QFileDialog, QMessageBox
 class FileManager:
     __file = ""
 
+    @staticmethod
     def checkFile(self, str):
 
         if os.path.isfile(str):
@@ -13,10 +14,12 @@ class FileManager:
         else:
             return False
 
+    @staticmethod
     def extractFileName(self, name):
 
         return os.path.basename(urlparse(name).path)
 
+    @staticmethod
     def updatingFile(self, name, content):
 
         try:
@@ -28,6 +31,7 @@ class FileManager:
         except FileExistsError as error:
             print(error)
 
+    @staticmethod
     def read(self, name):
 
         try:
