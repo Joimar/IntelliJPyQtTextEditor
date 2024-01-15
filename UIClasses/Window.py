@@ -51,10 +51,10 @@ class MainWindow(QMainWindow):
         # Opens a specific txt file selected by user
         file = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
         print(file[0])
-        print(self.extractFileName(file[0]))
+        print(FileManager.FileManager.extractFileName(self, file[0]))
 
         if os.path.exists(file[0]):
-            self.setWindowTitle(self.extractFileName(file[0]))
+            self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
             self.ui.plainTextEdit.clear()
             f = open(file[0], "r")
             self.ui.plainTextEdit.setPlainText(f.read())
@@ -65,21 +65,15 @@ class MainWindow(QMainWindow):
 
     def pressFileSave(self):
         # save a file or modification when user clicks in save option
-        check_file = os.path.isfile(self.__current_file)
-
-        if check_file:
-            f = open(self.__current_file, "r+")
-            f.truncate(0)
-            f.write(self.ui.plainTextEdit.toPlainText())
-            f.close()
+        if FileManager.FileManager.checkFile(self, self.__current_file):
+            FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
         else:
             file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", 'Text files (*.txt)')
             if len(file[0]) > 0:
-                f = open(file[0], "a")
-                f.write(self.ui.plainTextEdit.toPlainText())
-                f.close()
-                self.setWindowTitle(self.extractFileName(file[0]))
+                FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
+                self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
             self.__current_file = file[0]
+
         self.__setFileChanged(False)
 
     def closeEvent(self, event):
@@ -96,7 +90,7 @@ class MainWindow(QMainWindow):
             if returnValue == QMessageBox.StandardButton.Save:
                 self.__file_changed = False
                 self.pressFileSave()
-                event.ignore()
+                event.accept()
 
             elif returnValue == QMessageBox.StandardButton.Discard:
                 event.accept()
