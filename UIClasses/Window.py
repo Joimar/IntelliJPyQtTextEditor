@@ -33,8 +33,6 @@ class MainWindow(QMainWindow):
 
     def extractFileName(self, url):
         # extract the file name from the whole path string
-        # a = urlparse(url)
-        # return os.path.basename(a.path)
 
         return FileManager.FileManager.extractFileName(self, url)
 

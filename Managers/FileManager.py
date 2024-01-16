@@ -41,6 +41,7 @@ class FileManager:
             return content
         except FileExistsError as error:
             print(error)
+
     @staticmethod
     def append(self, name, content):
         f = open(name, "a")
