@@ -11,7 +11,7 @@ from Managers import FileManager
 class MainWindow(QMainWindow):
     __current_file = ""
     __file_changed = False
-
+    __saved = False
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -73,11 +73,12 @@ class MainWindow(QMainWindow):
             self.__current_file = file[0]
 
         self.__setFileChanged(False)
+        self.__saved = True
 
     def closeEvent(self, event):
         # overwritten method to trigger an event when user closes the program
         # calls a dialog asking if user wants to save or discard the changes
-        if self.__file_changed == True:
+        if self.__file_changed == True and self.__saved == False:
             box = QMessageBox()
             box.setWindowTitle("Program Name")
             box.setText("Do you want to save the changes?")
