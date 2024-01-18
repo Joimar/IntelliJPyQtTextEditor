@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog
 import os.path
 from UIFiles.UIMainWindow import Ui_MainWindow
 from Managers import FileManager
-
+#init
 
 class MainWindow(QMainWindow):
     __current_file = ""
