@@ -95,18 +95,16 @@ class MainWindow(QMainWindow):
             self.teste = "Salvou"
             print(self.teste)
         else:
-            file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", 'Text files (*.txt)')
+            file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
             self.__pressedSaved = True
             print(QFileDialog)
 
             if len(file[0]) > 0:
-                print("Selecionado")
                 FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
                 self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
                 self.__file_changed = False
                 self.__saved = True
             else:
-                print("Não Selecionado")
                 self.__saved = False
                 self.__file_changed = True
             self.__current_file = file[0]
@@ -114,27 +112,22 @@ class MainWindow(QMainWindow):
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
         if FileManager.FileManager.checkFile(self, self.__current_file):
+            #check if file already exists. If so, program is handling with a opened file and not a just created one
             FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
             self.__pressedSaved = True
             self.ui.plainTextEdit.blockSignals(False)
-            print("pressFileSave() FileManager says file exists")
-            print(self.__file_changed)
-            print(self.__saved)
 
-            self.teste = "Salvou"
-            print(self.teste)
         else:
             file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
             self.__pressedSaved = True
-
             if len(file[0]) > 0:
-                print("Selecionado")
+                #ensure that user gave a name to the file during saving
                 FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
                 self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
                 self.__file_changed = False
                 self.__saved = True
             else:
-                print("Não Selecionado")
+
                 self.__saved = False
                 self.__file_changed = True
             self.__current_file = file[0]
