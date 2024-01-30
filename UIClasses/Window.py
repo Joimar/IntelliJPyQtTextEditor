@@ -84,11 +84,8 @@ class MainWindow(QMainWindow):
 
     def pressFileSave(self):
         # save a file or modification when user clicks in save option
-        self.ui.plainTextEdit.blockSignals(True)
         if FileManager.FileManager.checkFile(self, self.__current_file):
             FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
-            #self.__file_changed = False
-            #self.__saved = True
             self.__pressedSaved = True
             self.ui.plainTextEdit.blockSignals(False)
             print("pressFileSave() FileManager says file exists")
@@ -113,15 +110,34 @@ class MainWindow(QMainWindow):
                 self.__saved = False
                 self.__file_changed = True
             self.__current_file = file[0]
-        if self.__file_changed == True:
-            self.__saved = False
-
-        self.ui.plainTextEdit.blockSignals(False)
 
     def pressFileSaveAs(self):
+        # save a file or modification when user clicks in save option
+        if FileManager.FileManager.checkFile(self, self.__current_file):
+            FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
+            self.__pressedSaved = True
+            self.ui.plainTextEdit.blockSignals(False)
+            print("pressFileSave() FileManager says file exists")
+            print(self.__file_changed)
+            print(self.__saved)
 
-        file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
+            self.teste = "Salvou"
+            print(self.teste)
+        else:
+            file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
+            self.__pressedSaved = True
 
+            if len(file[0]) > 0:
+                print("Selecionado")
+                FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
+                self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
+                self.__file_changed = False
+                self.__saved = True
+            else:
+                print("Não Selecionado")
+                self.__saved = False
+                self.__file_changed = True
+            self.__current_file = file[0]
     def closeEvent(self, event):
         # overwritten method to trigger an event when user closes the program
         # calls a dialog asking if user wants to save or discard the changes
