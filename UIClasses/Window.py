@@ -6,6 +6,7 @@ import os.path
 from UIFiles.UIMainWindow import Ui_MainWindow
 from Managers import FileManager
 
+
 class MainWindow(QMainWindow):
     __current_file = ""
     __file_changed = False
@@ -74,7 +75,7 @@ class MainWindow(QMainWindow):
     def pressFileSave(self):
         # save a file or modification when user clicks in save option
         if FileManager.FileManager.checkFile(self, self.__current_file):
-            # check if file already exists. If so, program is handling with a opened file and not a just created one
+            # check if file already exists. If so, program is handling with an opened file and not a just created one
             FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
             self.__pressedSaved = True
             self.ui.plainTextEdit.blockSignals(False)
@@ -95,7 +96,7 @@ class MainWindow(QMainWindow):
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
         if FileManager.FileManager.checkFile(self, self.__current_file):
-            # check if file already exists. If so, program is handling with a opened file and not a just created one
+            # check if file already exists. If so, program is handling with an opened file and not a just created one
             FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
             self.__pressedSaved = True
             self.ui.plainTextEdit.blockSignals(False)

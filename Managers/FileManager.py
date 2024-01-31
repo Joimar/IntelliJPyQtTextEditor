@@ -44,6 +44,6 @@ class FileManager:
 
     @staticmethod
     def append(self, name, content):
-        f = open(name, "a")
+        f = open(name, "w")
         f.write(content)
         f.close()
