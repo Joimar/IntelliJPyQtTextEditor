@@ -95,24 +95,18 @@ class MainWindow(QMainWindow):
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
-        if FileManager.FileManager.checkFile(self, self.__current_file):
-            # check if file already exists. If so, program is handling with an opened file and not a just created one
-            FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
-            self.__pressedSaved = True
-            self.ui.plainTextEdit.blockSignals(False)
+        file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
+        self.__pressedSaved = True
+        self.ui.plainTextEdit.blockSignals(False)
+        if len(file[0]) > 0:
+            # ensure that user gave a name to the file during saving
+            FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
+            self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
+            self.__file_changed = False
+            self.__saved = True
         else:
-            file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
-            self.__pressedSaved = True
-            self.ui.plainTextEdit.blockSignals(False)
-            if len(file[0]) > 0:
-                # ensure that user gave a name to the file during saving
-                FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
-                self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-                self.__file_changed = False
-                self.__saved = True
-            else:
-                self.__saved = False
-                self.__file_changed = True
+            self.__saved = False
+            self.__file_changed = True
             self.__current_file = file[0]
 
     def closeEvent(self, event):
