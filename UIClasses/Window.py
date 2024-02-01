@@ -100,10 +100,10 @@ class MainWindow(QMainWindow):
             FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
             self.__pressedSaved = True
             self.ui.plainTextEdit.blockSignals(False)
-
         else:
             file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
             self.__pressedSaved = True
+            self.ui.plainTextEdit.blockSignals(False)
             if len(file[0]) > 0:
                 # ensure that user gave a name to the file during saving
                 FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
@@ -111,7 +111,6 @@ class MainWindow(QMainWindow):
                 self.__file_changed = False
                 self.__saved = True
             else:
-
                 self.__saved = False
                 self.__file_changed = True
             self.__current_file = file[0]
