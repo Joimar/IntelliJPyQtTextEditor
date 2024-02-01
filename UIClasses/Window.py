@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
         else:
             file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
             self.__pressedSaved = True
-
+            self.ui.plainTextEdit.blockSignals(False)
             if len(file[0]) > 0:
                 FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
                 self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
