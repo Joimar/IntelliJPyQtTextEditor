@@ -80,18 +80,7 @@ class MainWindow(QMainWindow):
             self.__pressedSaved = True
             self.ui.plainTextEdit.blockSignals(False)
         else:
-            file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
-            self.__pressedSaved = True
-            self.ui.plainTextEdit.blockSignals(False)
-            if len(file[0]) > 0:
-                FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
-                self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-                self.__file_changed = False
-                self.__saved = True
-            else:
-                self.__saved = False
-                self.__file_changed = True
-            self.__current_file = file[0]
+            self.pressFileSaveAs()
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
