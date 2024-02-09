@@ -18,11 +18,16 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        # File Actions
         self.ui.actionNew.triggered.connect(self.pressFileNew)
         self.ui.actionSave.triggered.connect(self.pressFileSave)
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionSave_as.triggered.connect(self.pressFileSaveAs)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
+        # Edit Actions
+        self.ui.actionUndo.triggered.connect(self.pressEditUndo)
+        self.ui.actionRedo.triggered.connect(self.pressEditRedo)
+
         self.ui.plainTextEdit.textChanged.connect(self.__setFileChanged)
 
         self.setWindowTitle("Untitled")
@@ -120,3 +125,11 @@ class MainWindow(QMainWindow):
                 event.accept()
             elif returnValue == QMessageBox.StandardButton.Cancel:
                 event.ignore()
+
+    def pressEditUndo(self):
+
+        self.ui.plainTextEdit.undo()
+
+    def pressEditRedo(self):
+
+        self.ui.plainTextEdit.redo()
