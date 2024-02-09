@@ -46,8 +46,18 @@
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
    </widget>
+   <widget class="QMenu" name="menuAppearance">
+    <property name="title">
+     <string>Appearance</string>
+    </property>
+    <addaction name="actionSet_Dark_Mode"/>
+    <addaction name="actionSet_Light_Mode"/>
+    <addaction name="separator"/>
+    <addaction name="actionChange_Font_Size"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuAppearance"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew">
@@ -96,6 +106,21 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="actionSet_Dark_Mode">
+   <property name="text">
+    <string>Set Dark Mode</string>
+   </property>
+  </action>
+  <action name="actionSet_Light_Mode">
+   <property name="text">
+    <string>Set Light Mode</string>
+   </property>
+  </action>
+  <action name="actionChange_Font_Size">
+   <property name="text">
+    <string>Change Font Size</string>
    </property>
   </action>
  </widget>

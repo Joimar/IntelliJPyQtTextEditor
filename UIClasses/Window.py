@@ -28,6 +28,10 @@ class MainWindow(QMainWindow):
         self.ui.actionUndo.triggered.connect(self.pressEditUndo)
         self.ui.actionRedo.triggered.connect(self.pressEditRedo)
 
+        # Appearance Actions
+        self.ui.actionSet_Dark_Mode.triggered.connect(self.pressAppearanceSetDarkMode)
+        self.ui.actionSet_Light_Mode.triggered.connect(self.pressAppearanceSetLightMode)
+
         self.ui.plainTextEdit.textChanged.connect(self.__setFileChanged)
 
         self.setWindowTitle("Untitled")
@@ -102,6 +106,23 @@ class MainWindow(QMainWindow):
             self.__saved = False
             self.__file_changed = True
             self.__current_file = file[0]
+
+    def pressAppearanceSetDarkMode(self):
+
+        self.setStyleSheet('''QWidget{
+            background-color: rgb(33,33,33);
+            color: #FFFFFF;
+            }
+            QPlainTextEdit{
+            background-color: rgb(46,46,46);
+            }
+            QMenuBar::item:selected{
+            color: #000000
+            } ''')
+
+    def pressAppearanceSetLightMode(self):
+
+        self.setStyleSheet("")
 
     def closeEvent(self, event):
         # overwritten method to trigger an event when user closes the program

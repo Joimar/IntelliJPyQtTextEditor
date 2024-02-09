@@ -37,6 +37,12 @@ class Ui_MainWindow(object):
         self.actionUndo.setObjectName(u"actionUndo")
         self.actionRedo = QAction(MainWindow)
         self.actionRedo.setObjectName(u"actionRedo")
+        self.actionSet_Dark_Mode = QAction(MainWindow)
+        self.actionSet_Dark_Mode.setObjectName(u"actionSet_Dark_Mode")
+        self.actionSet_Light_Mode = QAction(MainWindow)
+        self.actionSet_Light_Mode.setObjectName(u"actionSet_Light_Mode")
+        self.actionChange_Font_Size = QAction(MainWindow)
+        self.actionChange_Font_Size.setObjectName(u"actionChange_Font_Size")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -54,6 +60,8 @@ class Ui_MainWindow(object):
         self.menuFile.setObjectName(u"menuFile")
         self.menuEdit = QMenu(self.menubar)
         self.menuEdit.setObjectName(u"menuEdit")
+        self.menuAppearance = QMenu(self.menubar)
+        self.menuAppearance.setObjectName(u"menuAppearance")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -61,6 +69,7 @@ class Ui_MainWindow(object):
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
+        self.menubar.addAction(self.menuAppearance.menuAction())
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addSeparator()
@@ -68,6 +77,10 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionSave_as)
         self.menuEdit.addAction(self.actionUndo)
         self.menuEdit.addAction(self.actionRedo)
+        self.menuAppearance.addAction(self.actionSet_Dark_Mode)
+        self.menuAppearance.addAction(self.actionSet_Light_Mode)
+        self.menuAppearance.addSeparator()
+        self.menuAppearance.addAction(self.actionChange_Font_Size)
 
         self.retranslateUi(MainWindow)
 
@@ -100,7 +113,11 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(shortcut)
         self.actionRedo.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Y", None))
 #endif // QT_CONFIG(shortcut)
+        self.actionSet_Dark_Mode.setText(QCoreApplication.translate("MainWindow", u"Set Dark Mode", None))
+        self.actionSet_Light_Mode.setText(QCoreApplication.translate("MainWindow", u"Set Light Mode", None))
+        self.actionChange_Font_Size.setText(QCoreApplication.translate("MainWindow", u"Change Font Size", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuEdit.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))
+        self.menuAppearance.setTitle(QCoreApplication.translate("MainWindow", u"Appearance", None))
     # retranslateUi
 
