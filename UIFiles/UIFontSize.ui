@@ -27,17 +27,24 @@
      <string>Font Size: </string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QSpinBox" name="spinBox">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>140</x>
       <y>40</y>
-      <width>49</width>
-      <height>16</height>
+      <width>42</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="text">
-     <string>...</string>
+   </widget>
+   <widget class="QDoubleSpinBox" name="doubleSpinBox">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>40</y>
+      <width>62</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
