@@ -3,6 +3,8 @@
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 import os.path
+
+from UIClasses.FontSizeWindow import Ui_FontSize, FontSizeWindow
 from UIFiles.UIMainWindow import Ui_MainWindow
 from Managers import FileManager
 
@@ -12,6 +14,7 @@ class MainWindow(QMainWindow):
     __file_changed = False
     __saved = False
     __pressedSaved = False
+    __fontSizeWindow = None
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -31,10 +34,11 @@ class MainWindow(QMainWindow):
         # Appearance Actions
         self.ui.actionSet_Dark_Mode.triggered.connect(self.pressAppearanceSetDarkMode)
         self.ui.actionSet_Light_Mode.triggered.connect(self.pressAppearanceSetLightMode)
+        self.ui.actionChange_Font_Size.triggered.connect(self.pressAppearanceChangeFont)
 
         self.ui.plainTextEdit.textChanged.connect(self.__setFileChanged)
 
-        self.setWindowTitle("Untitled")
+        self.setWindowTitle("Text Editor")
 
     def __setFileChanged(self):
         # set __file_changed to True or False
@@ -154,3 +158,12 @@ class MainWindow(QMainWindow):
     def pressEditRedo(self):
 
         self.ui.plainTextEdit.redo()
+
+    def pressAppearanceChangeFont(self):
+
+        self.__fontSizeWindow = FontSizeWindow()
+        self.__fontSizeWindow.show()
+
+
+
+
