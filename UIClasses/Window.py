@@ -1,5 +1,6 @@
 # This Python file uses the following encoding: utf-8
-
+import PyQt6
+from PyQt6 import QtCore
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 import os.path
@@ -39,6 +40,7 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit.textChanged.connect(self.__setFileChanged)
 
         self.setWindowTitle("Text Editor")
+
 
     def __setFileChanged(self):
         # set __file_changed to True or False
@@ -151,6 +153,7 @@ class MainWindow(QMainWindow):
             elif returnValue == QMessageBox.StandardButton.Cancel:
                 event.ignore()
 
+        self.__fontSizeWindow.close()
     def pressEditUndo(self):
 
         self.ui.plainTextEdit.undo()
