@@ -2,6 +2,7 @@
 import PyQt6
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 import os.path
 
@@ -32,6 +33,8 @@ class MainWindow(QMainWindow):
         self.ui.actionUndo.triggered.connect(self.pressEditUndo)
         self.ui.actionRedo.triggered.connect(self.pressEditRedo)
 
+
+        print("Text Size: " + self.ui.plainTextEdit.font().pointSize().__str__())
         # Appearance Actions
         self.ui.actionSet_Dark_Mode.triggered.connect(self.pressAppearanceSetDarkMode)
         self.ui.actionSet_Light_Mode.triggered.connect(self.pressAppearanceSetLightMode)
@@ -40,6 +43,8 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit.textChanged.connect(self.__setFileChanged)
 
         self.setWindowTitle("Text Editor")
+
+        # actions from font size window
 
 
     def __setFileChanged(self):
@@ -88,6 +93,7 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit.blockSignals(False)
 
     def pressFileSave(self):
+
         # save a file or modification when user clicks in save option
         if FileManager.FileManager.checkFile(self, self.__current_file):
             # check if file already exists. If so, program is handling with an opened file and not a just created one
@@ -129,6 +135,8 @@ class MainWindow(QMainWindow):
     def pressAppearanceSetLightMode(self):
 
         self.setStyleSheet("")
+        self.ui.plainTextEdit.font().setPointSize(90)
+
 
     def closeEvent(self, event):
         # overwritten method to trigger an event when user closes the program
@@ -152,8 +160,12 @@ class MainWindow(QMainWindow):
                 event.accept()
             elif returnValue == QMessageBox.StandardButton.Cancel:
                 event.ignore()
+        # TODO create a conditional to use close() only when fontSizeWindow is not None
+        if self.__fontSizeWindow is not None:
+            self.__fontSizeWindow.close()
 
-        self.__fontSizeWindow.close()
+
+
     def pressEditUndo(self):
 
         self.ui.plainTextEdit.undo()
@@ -164,9 +176,19 @@ class MainWindow(QMainWindow):
 
     def pressAppearanceChangeFont(self):
 
-        self.__fontSizeWindow = FontSizeWindow()
+        self.__fontSizeWindow = FontSizeWindow(self.ui.plainTextEdit)
+        self.__fontSizeWindow.__fontSize = self.ui.plainTextEdit.fontInfo().pointSize()
+
+        self.__fontSizeWindow.ui.spinBox.setValue(self.ui.plainTextEdit.fontInfo().pointSize())
+        self.__fontSizeWindow.ui.spinBox.valueChanged.connect(self.updateFontSize)
+
+        print("Font: " + self.ui.plainTextEdit.fontInfo().pointSize().__str__())
         self.__fontSizeWindow.show()
 
+    def updateFontSize(self):
 
+        self.ui.plainTextEdit.setFont(QFont('Arial', self.__fontSizeWindow.ui.spinBox.value()))
+
+        print("Font updated")
 
 
