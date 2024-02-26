@@ -101,6 +101,7 @@ class MainWindow(QMainWindow):
             self.__pressedSaved = True
             self.ui.plainTextEdit.blockSignals(False)
         else:
+            # if not exist yet
             self.pressFileSaveAs()
 
     def pressFileSaveAs(self):
