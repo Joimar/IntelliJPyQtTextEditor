@@ -33,8 +33,6 @@ class MainWindow(QMainWindow):
         self.ui.actionUndo.triggered.connect(self.pressEditUndo)
         self.ui.actionRedo.triggered.connect(self.pressEditRedo)
 
-
-        print("Text Size: " + self.ui.plainTextEdit.font().pointSize().__str__())
         # Appearance Actions
         self.ui.actionSet_Dark_Mode.triggered.connect(self.pressAppearanceSetDarkMode)
         self.ui.actionSet_Light_Mode.triggered.connect(self.pressAppearanceSetLightMode)
@@ -78,8 +76,6 @@ class MainWindow(QMainWindow):
         # Opens a specific txt file selected by user
         self.ui.plainTextEdit.blockSignals(True)
         file = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
-        print(file[0])
-        print(FileManager.FileManager.extractFileName(self, file[0]))
 
         if os.path.exists(file[0]):
             self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
