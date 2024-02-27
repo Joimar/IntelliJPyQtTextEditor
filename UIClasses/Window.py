@@ -172,8 +172,6 @@ class MainWindow(QMainWindow):
         if self.__fontSizeWindow is not None:
             self.__fontSizeWindow.close()
 
-
-
     def pressEditUndo(self):
 
         self.ui.plainTextEdit.undo()
