@@ -190,7 +190,6 @@ class MainWindow(QMainWindow):
         self.__fontSizeWindow.ui.spinBox.setValue(self.ui.plainTextEdit.fontInfo().pointSize())
         self.__fontSizeWindow.ui.spinBox.valueChanged.connect(self.updateFontSize)
 
-        # print("Font: " + self.ui.plainTextEdit.fontInfo().pointSize().__str__())
         self.__fontSizeWindow.show()
 
     def updateFontSize(self):
