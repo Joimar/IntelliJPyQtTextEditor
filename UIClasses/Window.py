@@ -1,9 +1,13 @@
 # This Python file uses the following encoding: utf-8
 import PyQt6
 from PyQt6 import QtCore
+#from PyQt6.QtPrintSupport import QPrinter, QPrintPreviewDialog, QPrintDialog
+from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog, QPrintDialog
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtGui import QFont
+
 from PySide6.QtWidgets import QMainWindow, QFileDialog
+
 import os.path
 
 from UIClasses.FontSizeWindow import Ui_FontSize, FontSizeWindow
@@ -29,6 +33,7 @@ class MainWindow(QMainWindow):
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionSave_as.triggered.connect(self.pressFileSaveAs)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
+        self.ui.actionPrint.triggered.connect(self.pressFilePrint)
         # Edit Actions
         self.ui.actionUndo.triggered.connect(self.pressEditUndo)
         self.ui.actionRedo.triggered.connect(self.pressEditRedo)
@@ -126,6 +131,15 @@ class MainWindow(QMainWindow):
             self.__saved = False
             self.__file_changed = True
             self.__current_file = file[0]
+    def pressFilePrint(self):
+
+        printer = QPrinter()
+        previewDialog = QPrintPreviewDialog(printer)
+        previewDialog.paintRequested.connect(self.ui.plainTextEdit.print_(printer))
+        previewDialog.exec_()
+
+        #if dialog.exec_() == QPrintDialog.accepted:
+        #    self.ui.plainTextEdit.print_(printer)
 
     def pressAppearanceSetDarkMode(self):
 
