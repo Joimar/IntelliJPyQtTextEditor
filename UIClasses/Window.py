@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
 
         printer = QPrinter()
         previewDialog = QPrintPreviewDialog(printer)
-        previewDialog.paintRequested.connect(self.ui.plainTextEdit.print_(printer))
+        previewDialog.paintRequested.connect(self.ui.plainTextEdit.print_)
         previewDialog.exec_()
 
         #if dialog.exec_() == QPrintDialog.accepted:
