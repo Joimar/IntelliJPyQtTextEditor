@@ -1,12 +1,14 @@
 # This Python file uses the following encoding: utf-8
 import PyQt6
 from PyQt6 import QtCore
+from PySide6.QtCore import QFileInfo
 #from PyQt6.QtPrintSupport import QPrinter, QPrintPreviewDialog, QPrintDialog
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog, QPrintDialog
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtGui import QFont
-
 from PySide6.QtWidgets import QMainWindow, QFileDialog
+
+from pdfrw import PdfWriter
 
 import os.path
 
@@ -34,6 +36,7 @@ class MainWindow(QMainWindow):
         self.ui.actionSave_as.triggered.connect(self.pressFileSaveAs)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
         self.ui.actionPrint.triggered.connect(self.pressFilePrint)
+        self.ui.actionExport_PDF.triggered.connect(self.pressExportPDF)
         # Edit Actions
         self.ui.actionUndo.triggered.connect(self.pressEditUndo)
         self.ui.actionRedo.triggered.connect(self.pressEditRedo)
@@ -140,6 +143,19 @@ class MainWindow(QMainWindow):
 
         #if dialog.exec_() == QPrintDialog.accepted:
         #    self.ui.plainTextEdit.print_(printer)
+
+    def pressExportPDF(self):
+        # test = PdfWriter()
+        # test.addpage(self.ui.plainTextEdit)
+        # test.write("test.pdf")
+        fn, _ = QFileDialog.getSaveFileName(self, "Export PDF", None, "PDF files (.pdf);;All Files")
+
+        if fn != '':
+            if QFileInfo(fn).suffix() == "":
+                fn += '.pdf'
+                printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+                printer.setOutputFileName(fn)
+                self.ui.plainTextEdit.document().print_(printer)
 
     def pressAppearanceSetDarkMode(self):
 
