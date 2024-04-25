@@ -1,18 +1,13 @@
 # This Python file uses the following encoding: utf-8
-import PyQt6
-from PyQt6 import QtCore
 from PySide6.QtCore import QFileInfo
-#from PyQt6.QtPrintSupport import QPrinter, QPrintPreviewDialog, QPrintDialog
-from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog, QPrintDialog
+from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 
-from pdfrw import PdfWriter
-
 import os.path
 
-from UIClasses.FontSizeWindow import Ui_FontSize, FontSizeWindow
+from UIClasses.FontSizeWindow import FontSizeWindow
 from UIFiles.UIMainWindow import Ui_MainWindow
 from Managers import FileManager
 
@@ -141,13 +136,8 @@ class MainWindow(QMainWindow):
         previewDialog.paintRequested.connect(self.ui.plainTextEdit.print_)
         previewDialog.exec_()
 
-        #if dialog.exec_() == QPrintDialog.accepted:
-        #    self.ui.plainTextEdit.print_(printer)
-
     def pressExportPDF(self):
-        # test = PdfWriter()
-        # test.addpage(self.ui.plainTextEdit)
-        # test.write("test.pdf")
+
         fn, _ = QFileDialog.getSaveFileName(self, "Export PDF", None, "PDF files (.pdf);;All Files")
 
         if fn != '':
