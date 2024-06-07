@@ -4,7 +4,7 @@ from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
-
+import enchant
 import os.path
 
 from UIClasses.FontSizeWindow import FontSizeWindow
@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Text Editor")
 
         # actions from font size window
-
+        d = enchant.Dict("en_US")
 
     def __setFileChanged(self):
         # set __file_changed to True or False
