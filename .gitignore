@@ -9,7 +9,7 @@ __pycache__/
 .env
 .venv
 env/
-
+ UIFiles/__pycache__/
 # Ignora arquivos de IDE
 .vscode/
 .idea/
