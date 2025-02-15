@@ -77,26 +77,17 @@ class MainWindow(QMainWindow):
     # Open Functionalities are done
     def pressFileOpen(self):
         # Opens a specific txt file selected by user
-        #self.ui.plainTextEdit.blockSignals(True)
-        #file = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
 
-        #if os.path.exists(file[0]):
-        #self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-        #self.ui.plainTextEdit.clear()
-        #f = open(file[0], "r")
-        #self.ui.plainTextEdit.setPlainText(f.read())
-        #f.close()
-        #self.__current_file = file[0]
-        #self.__file_changed = False
-        #self.__saved = True
-        #self.ui.plainTextEdit.blockSignals(False)
-
+        self.ui.plainTextEdit.blockSignals(True)
         file, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
         if os.path.exists(file):
             self.service.open_file(file)
             self.ui.plainTextEdit.setPlainText(self.service.get_text())
             self.updateWindowTitle()
-
+            self.__file_changed = False
+            self.__saved = True
+            self.__current_file = file
+        self.ui.plainTextEdit.blockSignals(False)
     def pressFileSave(self):
 
         # save a file or modification when user clicks in save option
