@@ -4,7 +4,7 @@ import os
 class TextEditorService:
     def __init__(self):
         self._current_text = ""
-        self._file_path = None
+        self._file_path = ""
         self._is_modified = False
 
         self._saved = False

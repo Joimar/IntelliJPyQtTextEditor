@@ -89,8 +89,7 @@ class MainWindow(QMainWindow):
         file, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
 
         if file:
-            self.service.open_file(file)
-            #self.ui.plainTextEdit.setPlainText(self.service.get_text())  # Qt gerencia textChanged()
+            self.service.open_file(file[0])
             self.ui.plainTextEdit.setPlainText(self.service.get_text())
             self.updateWindowTitle()
             self.service.set_is_modified(False)
@@ -101,9 +100,7 @@ class MainWindow(QMainWindow):
         if FileManager.FileManager.checkFile(self, self.service.get_file_path()):
             # check if file already exists. If so, program is handling with an opened file and not a just created one
             FileManager.FileManager.updatingFile(self, self.service.get_file_path(), self.ui.plainTextEdit.toPlainText())
-            #self.__pressedSaved = True
             self.service.set_is_modified(True)
-            #self.ui.plainTextEdit.blockSignals(False)
         else:
             # if not exist yet
             file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
