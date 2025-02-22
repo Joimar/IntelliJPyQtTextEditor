@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
     __saved = False
     __pressedSaved = False
     __fontSizeWindow = None
+    __is_updating = False
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -53,16 +54,24 @@ class MainWindow(QMainWindow):
         d = enchant.Dict("en_US")
 
     def __on_text_changed(self):
+
+        if self.__is_updating:
+            return  # Se já estamos atualizando, saímos da função
+
+
         # set __file_changed to True or False
+
         if self.__pressedSaved:
-            self.__file_changed = False
+            #self.__file_changed = False
+            self.service.set_is_modified(False)
             self.__saved = True
             self.__pressedSaved = False
         else:
-            self.__file_changed = True
+            #self.__file_changed = True
+            self.service.set_is_modified(True)
             self.__pressedSaved = False
             self.__saved = False
-            self.ui.plainTextEdit.blockSignals(True)
+            #self.ui.plainTextEdit.blockSignals(True)
 
     def extractFileName(self, url):
         # extract the file name from the whole path string
@@ -77,55 +86,61 @@ class MainWindow(QMainWindow):
     # Open Functionalities are done
     def pressFileOpen(self):
         # Opens a specific txt file selected by user
-
-        self.ui.plainTextEdit.blockSignals(True)
         file, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
-        if os.path.exists(file):
+
+        if file:
             self.service.open_file(file)
+            #self.ui.plainTextEdit.setPlainText(self.service.get_text())  # Qt gerencia textChanged()
             self.ui.plainTextEdit.setPlainText(self.service.get_text())
             self.updateWindowTitle()
-            self.__file_changed = False
-            self.__saved = True
-            self.__current_file = file
-        self.ui.plainTextEdit.blockSignals(False)
+            self.service.set_is_modified(False)
+
     def pressFileSave(self):
 
         # save a file or modification when user clicks in save option
-        if FileManager.FileManager.checkFile(self, self.__current_file):
+        if FileManager.FileManager.checkFile(self, self.service.get_file_path()):
             # check if file already exists. If so, program is handling with an opened file and not a just created one
-            FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
-            self.__pressedSaved = True
-            self.ui.plainTextEdit.blockSignals(False)
+            FileManager.FileManager.updatingFile(self, self.service.get_file_path(), self.ui.plainTextEdit.toPlainText())
+            #self.__pressedSaved = True
+            self.service.set_is_modified(True)
+            #self.ui.plainTextEdit.blockSignals(False)
         else:
             # if not exist yet
             file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
-            self.__pressedSaved = True
-            self.ui.plainTextEdit.blockSignals(False)
+            #self.__pressedSaved = True
+            self.service.set_is_modified(True)
+            #self.ui.plainTextEdit.blockSignals(False)
             if len(file[0]) > 0:
                 FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
                 self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-                self.__file_changed = False
+                #self.__file_changed = False
+                self.service.set_is_modified(False)
                 self.__saved = True
             else:
                 self.__saved = False
-                self.__file_changed = True
-            self.__current_file = file[0]
+                #self.__file_changed = True
+                self.service.set_is_modified(True)
+            #self.__current_file = file[0]
+            self.service.set_file_path(file[0])
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
         file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
         self.__pressedSaved = True
-        self.ui.plainTextEdit.blockSignals(False)
+        #self.ui.plainTextEdit.blockSignals(False)
         if len(file[0]) > 0:
             # ensure that user gave a name to the file during saving
             FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
             self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-            self.__file_changed = False
+            #self.__file_changed = False
+            self.service.set_is_modified(False)
             self.__saved = True
         else:
             self.__saved = False
-            self.__file_changed = True
-            self.__current_file = file[0]
+            #self.__file_changed = True
+            self.service.set_is_modified(True)
+            #self.__current_file = file[0]
+            self.service.set_file_path(file[0])
     def pressFilePrint(self):
 
         printer = QPrinter()
@@ -167,7 +182,7 @@ class MainWindow(QMainWindow):
         # overwritten method to trigger an event when user closes the program
         # calls a dialog asking if user wants to save or discard the changes
 
-        if self.__file_changed == True and self.__saved == False:
+        if self.service.get_modified() == True and self.__saved == False:
             box = QMessageBox()
             box.setWindowTitle("Program Name")
             box.setText("Do you want to save the changes?")
@@ -176,7 +191,8 @@ class MainWindow(QMainWindow):
 
             returnValue = box.exec()
             if returnValue == QMessageBox.StandardButton.Save:
-                self.__file_changed = False
+                #self.__file_changed = False
+                self.service.set_is_modified(False)
                 self.__saved = True
                 self.pressFileSave()
                 event.accept()

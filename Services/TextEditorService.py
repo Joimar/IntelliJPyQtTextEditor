@@ -7,6 +7,9 @@ class TextEditorService:
         self._file_path = None
         self._is_modified = False
 
+        self._saved = False
+        self._pressed_save = False
+
     def new_file(self):
         self._current_text = ""
         self._file_path = None
@@ -33,5 +36,27 @@ class TextEditorService:
     def get_text(self):
         return self._current_text
 
+    def get_file_path(self):
+        return self._file_path
+
+    def set_file_path(self, file_path):
+        self._file_path = file_path
+
     def get_file_name(self):
         return "Untitled" if not self._file_path else os.path.basename(self._file_path)
+
+    def set_is_modified(self, is_modified):
+        self._is_modified = is_modified
+
+    def get_modified(self):
+        return self._is_modified
+
+    def on_text_changed(self):
+        if self._pressed_save:
+            self._is_modified = False
+            self._saved = True
+            self._pressed_save = False
+        else:
+            self._is_modified = True
+            self._pressed_save = False
+            self._saved = False
