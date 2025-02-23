@@ -55,25 +55,22 @@ class MainWindow(QMainWindow):
 
     def __on_text_changed(self):
 
-        if self.__is_updating:
+        if self.__service.get_is_updating():
             return  # Se já estamos atualizando, saímos da função
 
         # set __file_changed to True or False
 
         if self.__service.get_pressed_save():
-            # self.__file_changed = False
             self.__service.set_is_modified(False)
             self.__saved = True
-            #self.__pressedSaved = False
             self.__service.set_pressed_save(False)
         else:
             # self.__file_changed = True
             self.__service.set_is_modified(True)
-            #self.__pressedSaved = False
             self.__service.set_pressed_save(False)
             self.__saved = False
-            self.__is_updating = True
-            # self.ui.plainTextEdit.blockSignals(True)
+            #self.__is_updating = True
+            self.__service.set_is_updating(True)
 
     def extractFileName(self, url):
         # extract the file name from the whole path string
@@ -96,10 +93,11 @@ class MainWindow(QMainWindow):
             self.ui.plainTextEdit.setPlainText(self.__service.get_text())
             self.updateWindowTitle()
             self.__service.set_is_modified(False)
-            self.__is_updating = False
+            #self.__is_updating = False
+            self.__service.set_is_updating(False)
 
     def pressFileSave(self):
-        #self.__pressedSaved = True
+
         self.__service.set_pressed_save(True)
         # save a file or modification when user clicks in save option
         if FileManager.FileManager.checkFile(self, self.__service.get_file_path()):
@@ -113,7 +111,8 @@ class MainWindow(QMainWindow):
             # self.__pressedSaved = True
 
             # self.ui.plainTextEdit.blockSignals(False)
-            self.__is_updating = False
+            #self.__is_updating = False
+            self.__service.set_is_updating(False)
 
             if len(file[0]) > 0:
                 FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
@@ -135,7 +134,8 @@ class MainWindow(QMainWindow):
         self.__service.set_pressed_save(True)
 
         # self.ui.plainTextEdit.blockSignals(False)
-        self.__is_updating = False
+        #self.__is_updating = False
+        self.__service.set_is_updating(False)
         if len(file[0]) > 0:
             # ensure that user gave a name to the file during saving
             FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())

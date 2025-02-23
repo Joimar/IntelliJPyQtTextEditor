@@ -58,6 +58,18 @@ class TextEditorService:
     def get_pressed_save(self):
         return self._pressed_save
 
+    def set_save(self, save):
+        self._saved = save
+
+    def get_saved(self):
+        return self._saved
+
+    def set_is_updating(self, is_updating):
+        self._is_updating = is_updating
+
+    def get_is_updating(self):
+        return self._is_updating
+
     def on_text_changed(self):
         if self._pressed_save:
             self._is_modified = False
