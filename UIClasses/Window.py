@@ -60,15 +60,17 @@ class MainWindow(QMainWindow):
 
         # set __file_changed to True or False
 
-        if self.__pressedSaved:
+        if self.__service.get_pressed_save():
             # self.__file_changed = False
             self.__service.set_is_modified(False)
             self.__saved = True
-            self.__pressedSaved = False
+            #self.__pressedSaved = False
+            self.__service.set_pressed_save(False)
         else:
             # self.__file_changed = True
             self.__service.set_is_modified(True)
-            self.__pressedSaved = False
+            #self.__pressedSaved = False
+            self.__service.set_pressed_save(False)
             self.__saved = False
             self.__is_updating = True
             # self.ui.plainTextEdit.blockSignals(True)
@@ -94,9 +96,11 @@ class MainWindow(QMainWindow):
             self.ui.plainTextEdit.setPlainText(self.__service.get_text())
             self.updateWindowTitle()
             self.__service.set_is_modified(False)
+            self.__is_updating = False
 
     def pressFileSave(self):
-        self.__pressedSaved = True
+        #self.__pressedSaved = True
+        self.__service.set_pressed_save(True)
         # save a file or modification when user clicks in save option
         if FileManager.FileManager.checkFile(self, self.__service.get_file_path()):
             # check if file already exists. If so, program is handling with an opened file and not a just created one
@@ -127,7 +131,8 @@ class MainWindow(QMainWindow):
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
         file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
-        self.__pressedSaved = True
+        #self.__pressedSaved = True
+        self.__service.set_pressed_save(True)
 
         # self.ui.plainTextEdit.blockSignals(False)
         self.__is_updating = False

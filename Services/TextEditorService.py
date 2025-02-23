@@ -9,6 +9,7 @@ class TextEditorService:
 
         self._saved = False
         self._pressed_save = False
+        self._is_updating = False
 
     def new_file(self):
         self._current_text = ""
@@ -51,6 +52,12 @@ class TextEditorService:
     def get_modified(self):
         return self._is_modified
 
+    def set_pressed_save(self, pressed_save):
+        self._pressed_save = pressed_save
+
+    def get_pressed_save(self):
+        return self._pressed_save
+
     def on_text_changed(self):
         if self._pressed_save:
             self._is_modified = False
@@ -60,3 +67,4 @@ class TextEditorService:
             self._is_modified = True
             self._pressed_save = False
             self._saved = False
+            self._is_updating = True
