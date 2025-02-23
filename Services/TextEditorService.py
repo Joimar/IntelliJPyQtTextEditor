@@ -17,10 +17,15 @@ class TextEditorService:
         self._is_modified = False
 
     def open_file(self, file_path):
-        with open(file_path, "r") as file:
-            self._current_text = file.read()
-        self._file_path = file_path
-        self._is_modified = False
+        if file_path:
+            with open(file_path, "r") as file:
+                self._current_text = file.read()
+            self._file_path = file_path
+            self._is_modified = False
+            self._is_updating = False
+            self._pressed_save = True
+            return True
+        return False
 
     def save_file(self):
         if self._file_path:

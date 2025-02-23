@@ -62,14 +62,14 @@ class MainWindow(QMainWindow):
 
         if self.__service.get_pressed_save():
             self.__service.set_is_modified(False)
-            self.__saved = True
+            #self.__saved = True
+            self.__service.set_save(True)
             self.__service.set_pressed_save(False)
         else:
-            # self.__file_changed = True
             self.__service.set_is_modified(True)
             self.__service.set_pressed_save(False)
-            self.__saved = False
-            #self.__is_updating = True
+            #self.__saved = False
+            self.__service.set_save(False)
             self.__service.set_is_updating(True)
 
     def extractFileName(self, url):
@@ -88,13 +88,9 @@ class MainWindow(QMainWindow):
         # Opens a specific txt file selected by user
         file, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
 
-        if file:
-            self.__service.open_file(file)
+        if self.__service.open_file(file):
             self.ui.plainTextEdit.setPlainText(self.__service.get_text())
             self.updateWindowTitle()
-            self.__service.set_is_modified(False)
-            #self.__is_updating = False
-            self.__service.set_is_updating(False)
 
     def pressFileSave(self):
 
@@ -118,11 +114,13 @@ class MainWindow(QMainWindow):
                 FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
                 self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
                 self.__service.set_is_modified(False)
-                self.__saved = True
+                #self.__saved = True
+                self.__service.set_save(True)
                 self.__service.set_is_modified(False)
                 self.__service.set_file_path(file[0])
             else:
-                self.__saved = False
+                #self.__saved = False
+                self.__service.set_save(False)
                 self.__service.set_is_modified(True)
 
         self.__service.set_is_modified(False)
@@ -142,10 +140,11 @@ class MainWindow(QMainWindow):
             self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
             # self.__file_changed = False
             self.__service.set_is_modified(False)
-            self.__saved = True
+            #self.__saved = True
+            self.__service.set_save(True)
         else:
-            self.__saved = False
-            # self.__file_changed = True
+            #self.__saved = False
+            self.__service.set_save(False)
             self.__service.set_is_modified(True)
             self.__service.set_file_path(file[0])
 
@@ -199,7 +198,8 @@ class MainWindow(QMainWindow):
             returnValue = box.exec()
             if returnValue == QMessageBox.StandardButton.Save:
                 self.__service.set_is_modified(False)
-                self.__saved = True
+                #self.__saved = True
+                self.__service.set_save(True)
                 self.pressFileSave()
                 event.accept()
 
