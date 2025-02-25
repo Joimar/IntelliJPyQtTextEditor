@@ -1,9 +1,15 @@
 import os
 
+from PyQt6.QtWidgets import QFileDialog
+
+from Managers import FileManager
+
 
 class TextEditorService:
     def __init__(self):
         self._current_text = ""
+        self._file_name = ""
+
         self._file_path = ""
         self._is_modified = False
 
@@ -27,13 +33,45 @@ class TextEditorService:
             return True
         return False
 
-    def save_file(self):
-        if self._file_path:
-            with open(self._file_path, "w") as file:
-                file.write(self._current_text)
+    def save_file(self, text, file_name):
+        self._pressed_save = True
+        FileManager.FileManager.updatingFile(self, self._file_path, text)
+        self._is_modified = False
+
+    # ______________________________________________________________________________________
+
+    # if self._file_path:
+    #     with open(self._file_path, "w") as file:
+    #         file.write(self._current_text)
+    #     self._is_modified = False
+    # else:
+    #     raise ValueError("Nenhum arquivo especificado")
+
+    def save_new_file(self, text, file_path):
+        self._pressed_save = True
+        self._is_updating = False
+        if file_path:
+            FileManager.FileManager.append(self, file_path, text)
             self._is_modified = False
+            self._saved = True
+            self._file_path = file_path
+            self._file_name = FileManager.FileManager.extractFileName(self, file_path)
         else:
-            raise ValueError("Nenhum arquivo especificado")
+            self._saved = False
+            self._is_modified = True
+
+    def save_file_as(self, new_file_path):
+        self._file_path = new_file_path
+
+    def file_exist(self):
+        if FileManager.FileManager.checkFile(self, self._file_path):
+            return True
+        return False
+
+    def is_title_updated(self, text):
+        if self._file_name != text:
+            return False
+        return True
 
     def set_text(self, text):
         self._current_text = text
