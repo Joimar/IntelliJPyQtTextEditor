@@ -8,7 +8,7 @@ from Managers import FileManager
 class TextEditorService:
     def __init__(self):
         # self._current_text = ""
-        self._file_name = ""
+        # self._file_name = ""
 
         self._file_path = ""
         self._is_modified = False
@@ -55,7 +55,7 @@ class TextEditorService:
             self._is_modified = False
             self._saved = True
             self._file_path = file_path
-            self._file_name = FileManager.FileManager.extractFileName(self, file_path)
+            # self._file_name = FileManager.FileManager.extractFileName(self, file_path)
             self._pressed_save = True
             self._is_updating = False
         else:
@@ -69,10 +69,10 @@ class TextEditorService:
             return True
         return False
 
-    def is_title_updated(self, text):
-        if self._file_name != text:
-            return False
-        return True
+    # def is_title_updated(self, text):
+    #     if self._file_name != text:
+    #         return False
+    #     return True
 
     def set_text(self, text):
         #self._current_text = text
