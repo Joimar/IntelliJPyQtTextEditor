@@ -54,19 +54,7 @@ class MainWindow(QMainWindow):
         d = enchant.Dict("en_US")
 
     def __on_text_changed(self):
-
-        if self.__service.get_is_updating():
-            return  # Se já estamos atualizando, saímos da função
-
-        if self.__service.get_pressed_save():
-            self.__service.set_is_modified(False)
-            self.__service.set_save(True)
-            self.__service.set_pressed_save(False)
-        else:
-            self.__service.set_is_modified(True)
-            self.__service.set_pressed_save(False)
-            self.__service.set_save(False)
-            self.__service.set_is_updating(True)
+        self.__service.on_text_changed()
 
     def extractFileName(self, url):
         # extract the file name from the whole path string

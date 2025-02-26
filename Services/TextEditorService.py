@@ -115,6 +115,8 @@ class TextEditorService:
         return self._is_updating
 
     def on_text_changed(self):
+        if self._is_updating:
+            return
         if self._pressed_save:
             self._is_modified = False
             self._saved = True
