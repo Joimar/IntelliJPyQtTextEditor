@@ -58,8 +58,6 @@ class MainWindow(QMainWindow):
         if self.__service.get_is_updating():
             return  # Se já estamos atualizando, saímos da função
 
-        # set __file_changed to True or False
-
         if self.__service.get_pressed_save():
             self.__service.set_is_modified(False)
             self.__service.set_save(True)
@@ -87,7 +85,8 @@ class MainWindow(QMainWindow):
         file, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
 
         if self.__service.open_file(file):
-            self.ui.plainTextEdit.setPlainText(self.__service.get_text())
+            text = self.__service.open_file(file)
+            self.ui.plainTextEdit.setPlainText(text)
             self.updateWindowTitle()
 
     def pressFileSave(self):

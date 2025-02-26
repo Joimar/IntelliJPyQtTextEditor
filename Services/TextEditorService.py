@@ -7,7 +7,7 @@ from Managers import FileManager
 
 class TextEditorService:
     def __init__(self):
-        self._current_text = ""
+        # self._current_text = ""
         self._file_name = ""
 
         self._file_path = ""
@@ -18,20 +18,21 @@ class TextEditorService:
         self._is_updating = False
 
     def new_file(self):
-        self._current_text = ""
+        # self._current_text = ""
         self._file_path = None
         self._is_modified = False
 
     def open_file(self, file_path):
         if file_path:
-            with open(file_path, "r") as file:
-                self._current_text = file.read()
             self._file_path = file_path
             self._is_modified = False
             self._is_updating = False
             self._pressed_save = True
-            return True
-        return False
+            with open(file_path, "r") as file:
+                # self._current_text = file.read()
+                return file.read()
+
+        return ""
 
     def save_file(self, text, file_name):
         self._pressed_save = True
@@ -74,11 +75,11 @@ class TextEditorService:
         return True
 
     def set_text(self, text):
-        self._current_text = text
+        #self._current_text = text
         self._is_modified = True
 
-    def get_text(self):
-        return self._current_text
+    # def get_text(self):
+    #     return self._current_text
 
     def get_file_path(self):
         return self._file_path
