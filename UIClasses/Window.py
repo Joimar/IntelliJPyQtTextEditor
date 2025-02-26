@@ -77,14 +77,12 @@ class MainWindow(QMainWindow):
         if self.__service.file_exist():
             self.__service.save_file(text, self.__service.get_file_name())
         else:
-            file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
-            self.__service.save_new_file(text, file[0])
-            self.updateWindowTitle()
+            self.pressFileSaveAs()
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
         text = self.ui.plainTextEdit.toPlainText()
-        file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
+        file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
         self.__service.save_new_file(text, file[0])
         self.updateWindowTitle()
 
