@@ -5,10 +5,9 @@ from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 import enchant
-import os.path
+
 from UIClasses.FontSizeWindow import FontSizeWindow
 from UIFiles.UIMainWindow import Ui_MainWindow
-from Managers import FileManager
 
 from Services.TextEditorService import TextEditorService
 
@@ -55,11 +54,6 @@ class MainWindow(QMainWindow):
 
     def __on_text_changed(self):
         self.__service.on_text_changed()
-
-    def extractFileName(self, url):
-        # extract the file name from the whole path string
-
-        return FileManager.FileManager.extractFileName(self, url)
 
     def press_file_new(self):
         # creates new file and cleans plaintext
