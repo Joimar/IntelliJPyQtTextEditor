@@ -37,6 +37,7 @@ class TextEditorService:
         self._pressed_save = True
         FileManager.FileManager.updatingFile(self, self._file_path, text)
         self._is_modified = False
+        self._is_updating = False
 
     # ______________________________________________________________________________________
 
@@ -48,20 +49,19 @@ class TextEditorService:
     #     raise ValueError("Nenhum arquivo especificado")
 
     def save_new_file(self, text, file_path):
-        self._pressed_save = True
-        self._is_updating = False
         if file_path:
             FileManager.FileManager.append(self, file_path, text)
             self._is_modified = False
             self._saved = True
             self._file_path = file_path
             self._file_name = FileManager.FileManager.extractFileName(self, file_path)
+            self._pressed_save = True
+            self._is_updating = False
         else:
             self._saved = False
             self._is_modified = True
-
-    def save_file_as(self, new_file_path):
-        self._file_path = new_file_path
+            self._pressed_save = False
+            self._is_updating = True
 
     def file_exist(self):
         if FileManager.FileManager.checkFile(self, self._file_path):

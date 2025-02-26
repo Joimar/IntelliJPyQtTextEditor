@@ -62,13 +62,11 @@ class MainWindow(QMainWindow):
 
         if self.__service.get_pressed_save():
             self.__service.set_is_modified(False)
-            #self.__saved = True
             self.__service.set_save(True)
             self.__service.set_pressed_save(False)
         else:
             self.__service.set_is_modified(True)
             self.__service.set_pressed_save(False)
-            #self.__saved = False
             self.__service.set_save(False)
             self.__service.set_is_updating(True)
 
@@ -94,40 +92,20 @@ class MainWindow(QMainWindow):
 
     def pressFileSave(self):
 
-        # self.__service.set_save(self.ui.plainTextEdit.toPlainText())
-        # self.setWindowTitle(self.__service.get_file_name())
-
         text = self.ui.plainTextEdit.toPlainText()
-
-
-
         if self.__service.file_exist():
             self.__service.save_file(text, self.__service.get_file_name())
         else:
             file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
             self.__service.save_new_file(text, file[0])
-            self.setWindowTitle(self.__service.get_file_name())
+            self.updateWindowTitle()
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
+        text = self.ui.plainTextEdit.toPlainText()
         file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
-        self.__service.set_pressed_save(True)
-
-        # self.ui.plainTextEdit.blockSignals(False)
-        self.__service.set_is_updating(False)
-        if len(file[0]) > 0:
-            # ensure that user gave a name to the file during saving
-            FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
-            self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-            # self.__file_changed = False
-            self.__service.set_is_modified(False)
-            #self.__saved = True
-            self.__service.set_save(True)
-        else:
-            #self.__saved = False
-            self.__service.set_save(False)
-            self.__service.set_is_modified(True)
-            self.__service.set_file_path(file[0])
+        self.__service.save_new_file(text, file[0])
+        self.updateWindowTitle()
 
     def pressFilePrint(self):
 
@@ -179,7 +157,6 @@ class MainWindow(QMainWindow):
             returnValue = box.exec()
             if returnValue == QMessageBox.StandardButton.Save:
                 self.__service.set_is_modified(False)
-                #self.__saved = True
                 self.__service.set_save(True)
                 self.pressFileSave()
                 event.accept()
