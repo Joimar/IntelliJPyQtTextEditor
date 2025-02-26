@@ -19,8 +19,9 @@ class TextEditorService:
 
     def new_file(self):
         # self._current_text = ""
-        self._file_path = None
+        self._file_path = ""
         self._is_modified = False
+
 
     def open_file(self, file_path):
         if file_path:
