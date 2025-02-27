@@ -72,7 +72,6 @@ class MainWindow(QMainWindow):
             self.updateWindowTitle()
 
     def pressFileSave(self):
-
         text = self.ui.plainTextEdit.toPlainText()
         if self.__service.file_exist():
             self.__service.save_file(text, self.__service.get_file_name())
@@ -81,6 +80,7 @@ class MainWindow(QMainWindow):
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
+        # bug report: After saving using save as, it does not detect any change
         text = self.ui.plainTextEdit.toPlainText()
         file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
         self.__service.save_new_file(text, file[0])
@@ -170,5 +170,6 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit.setFont(QFont('Arial', self.__fontSizeWindow.ui.spinBox.value()))
 
     def updateWindowTitle(self):
-        file_name = self.__service.get_file_name()
-        self.setWindowTitle(file_name)
+        if self.__service.file_exist():
+            file_name = self.__service.get_file_name()
+            self.setWindowTitle(file_name)
