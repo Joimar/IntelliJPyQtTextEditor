@@ -41,7 +41,7 @@ class TextEditorService:
                 # self._current_text = file.read()
                 return file.read()
 
-        return ""
+        return None
 
     def save_file(self, text, file_name):
         self._saved = True
