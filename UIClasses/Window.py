@@ -13,10 +13,7 @@ from Services.TextEditorService import TextEditorService
 
 
 class MainWindow(QMainWindow):
-    __current_file = ""
-    __file_changed = False
-    __saved = False
-    __pressedSaved = False
+
     __fontSizeWindow = None
     __service = TextEditorService()
 
@@ -50,7 +47,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Text Editor")
 
         # actions from font size window
-        d = enchant.Dict("en_US")
+        # d = enchant.Dict("en_US")
 
     def __on_text_changed(self):
         self.__service.on_text_changed()
@@ -80,7 +77,7 @@ class MainWindow(QMainWindow):
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
-        # bug report: After saving using save as, it does not detect any change
+        # bug report: After saving using save as, it does not detect one digit change
         text = self.ui.plainTextEdit.toPlainText()
         file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
         self.__service.save_new_file(text, file[0])

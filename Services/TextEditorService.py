@@ -1,7 +1,5 @@
 import os
 
-from PyQt6.QtWidgets import QFileDialog
-
 from Managers import FileManager
 
 
@@ -14,21 +12,31 @@ class TextEditorService:
         self._is_modified = False
 
         self._saved = False
-        self._pressed_save = False
         self._is_updating = False
 
+    def on_text_changed(self):
+        if self._is_updating:
+            return
+
+        if self._saved:
+            self._is_modified = False
+            self._is_updating = False
+        else:
+            self._is_modified = True
+            self._is_updating = True
+        self._saved = False
     def new_file(self):
         # self._current_text = ""
         self._file_path = ""
         self._is_modified = False
-
 
     def open_file(self, file_path):
         if file_path:
             self._file_path = file_path
             self._is_modified = False
             self._is_updating = False
-            self._pressed_save = True
+            self._saved = True
+
             with open(file_path, "r") as file:
                 # self._current_text = file.read()
                 return file.read()
@@ -36,7 +44,7 @@ class TextEditorService:
         return ""
 
     def save_file(self, text, file_name):
-        self._pressed_save = True
+        self._saved = True
         FileManager.FileManager.updatingFile(self, self._file_path, text)
         self._is_modified = False
         self._is_updating = False
@@ -57,12 +65,12 @@ class TextEditorService:
             self._saved = True
             self._file_path = file_path
             # self._file_name = FileManager.FileManager.extractFileName(self, file_path)
-            self._pressed_save = True
+            # self._pressed_save = False
             self._is_updating = False
         else:
             self._saved = False
             self._is_modified = True
-            self._pressed_save = False
+            # self._pressed_save = False
             self._is_updating = True
 
     def file_exist(self):
@@ -76,7 +84,7 @@ class TextEditorService:
     #     return True
 
     def set_text(self, text):
-        #self._current_text = text
+        # self._current_text = text
         self._is_modified = True
 
     # def get_text(self):
@@ -97,11 +105,11 @@ class TextEditorService:
     def get_modified(self):
         return self._is_modified
 
-    def set_pressed_save(self, pressed_save):
-        self._pressed_save = pressed_save
+    # def set_pressed_save(self, pressed_save):
+    #     self._pressed_save = pressed_save
 
-    def get_pressed_save(self):
-        return self._pressed_save
+    # def get_pressed_save(self):
+    #     return self._pressed_save
 
     def set_save(self, save):
         self._saved = save
@@ -114,16 +122,3 @@ class TextEditorService:
 
     def get_is_updating(self):
         return self._is_updating
-
-    def on_text_changed(self):
-        if self._is_updating:
-            return
-        if self._pressed_save:
-            self._is_modified = False
-            self._saved = True
-            self._pressed_save = False
-        else:
-            self._is_modified = True
-            self._pressed_save = False
-            self._saved = False
-            self._is_updating = True
