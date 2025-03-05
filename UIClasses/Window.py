@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
         self.ui.actionSave.triggered.connect(self.pressFileSave)
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionSave_as.triggered.connect(self.pressFileSaveAs)
+        self.ui.actionSave_as.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
         self.ui.actionPrint.triggered.connect(self.pressFilePrint)
         self.ui.actionExport_PDF.triggered.connect(self.pressExportPDF)
@@ -77,7 +78,6 @@ class MainWindow(QMainWindow):
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
-        # bug report: After saving using save as, it does not detect one digit change
         text = self.ui.plainTextEdit.toPlainText()
         file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
         self.__service.save_new_file(text, file[0])
