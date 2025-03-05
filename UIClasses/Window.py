@@ -15,6 +15,7 @@ from Services.TextEditorService import TextEditorService
 class MainWindow(QMainWindow):
 
     __fontSizeWindow = None
+    # Criando instância do serviço antes de usá-lo
     __service = TextEditorService()
 
     def __init__(self, parent=None):
@@ -23,7 +24,6 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.__is_updating = False
-        # Criando instância do serviço antes de usá-lo
 
         # File Actions
         self.ui.actionNew.triggered.connect(self.press_file_new)
@@ -62,10 +62,9 @@ class MainWindow(QMainWindow):
     # Open Functionalities are done
     def pressFileOpen(self):
         # Opens a specific txt file selected by user
-        file, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
-
-        if self.__service.open_file(file):
-            text = self.__service.open_file(file)
+        file_path, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
+        text = self.__service.open_file(file_path)
+        if text is not None:
             self.ui.plainTextEdit.setPlainText(text)
             self.updateWindowTitle()
 
