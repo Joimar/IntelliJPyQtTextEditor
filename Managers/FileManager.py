@@ -7,16 +7,16 @@ class FileManager:
     __file = ""
 
     @staticmethod
-    def checkFile(str):
-
-        if os.path.isfile(str):
-            return True
-        else:
-            return False
+    def checkFile(file_path):
+        """Verify if a file exists."""
+        return os.path.isfile(file_path)
+        # if os.path.isfile(str):
+        #     return True
+        # else:
+        #     return False
 
     @staticmethod
     def extractFileName(name):
-
         return os.path.basename(urlparse(name).path)
 
     @staticmethod
