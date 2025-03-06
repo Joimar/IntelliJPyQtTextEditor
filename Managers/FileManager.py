@@ -1,7 +1,4 @@
 import os
-from urllib.parse import urlparse
-from PyQt6.QtWidgets import QFileDialog, QMessageBox
-
 
 class FileManager:
     __file = ""
