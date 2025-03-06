@@ -37,9 +37,6 @@ class TextEditorService:
             self._is_updating = False
             self._saved = True
 
-            # with open(file_path, "r") as file:
-            #     # self._current_text = file.read()
-            #     return file.read()
             return FileManager.FileManager.read(file_path)
 
         return None
@@ -50,44 +47,24 @@ class TextEditorService:
         self._is_modified = False
         self._is_updating = False
 
-    # ______________________________________________________________________________________
-
-    # if self._file_path:
-    #     with open(self._file_path, "w") as file:
-    #         file.write(self._current_text)
-    #     self._is_modified = False
-    # else:
-    #     raise ValueError("Nenhum arquivo especificado")
-
     def save_new_file(self, text, file_path):
         if file_path:
             FileManager.FileManager.append(file_path, text)
             self._is_modified = False
             self._saved = True
             self._file_path = file_path
-            # self._file_name = FileManager.FileManager.extractFileName(self, file_path)
-            # self._pressed_save = False
             self._is_updating = False
         else:
             self._saved = False
             self._is_modified = True
-            # self._pressed_save = False
             self._is_updating = True
 
     def file_exist(self):
         return FileManager.FileManager.checkFile(self._file_path)
 
-    # def is_title_updated(self, text):
-    #     if self._file_name != text:
-    #         return False
-    #     return True
-
     def set_text(self, text):
         # self._current_text = text
         self._is_modified = True
-
-    # def get_text(self):
-    #     return self._current_text
 
     def get_file_path(self):
         return self._file_path
@@ -103,12 +80,6 @@ class TextEditorService:
 
     def get_modified(self):
         return self._is_modified
-
-    # def set_pressed_save(self, pressed_save):
-    #     self._pressed_save = pressed_save
-
-    # def get_pressed_save(self):
-    #     return self._pressed_save
 
     def set_save(self, save):
         self._saved = save

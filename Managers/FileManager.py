@@ -10,10 +10,6 @@ class FileManager:
     def checkFile(file_path):
         """Verify if a file exists."""
         return os.path.isfile(file_path)
-        # if os.path.isfile(str):
-        #     return True
-        # else:
-        #     return False
 
     @staticmethod
     def extractFileName(file_path):
@@ -26,9 +22,7 @@ class FileManager:
         """Overwrite the content of an existing file."""
         try:
             with open(file_path, "w") as f:
-                # f.truncate(0)
                 f.write(content)
-                # f.close()
 
         except FileExistsError as error:
             print(f"Error when trying to update file: {error}.")
@@ -38,9 +32,6 @@ class FileManager:
         """Read the content of a file and returns it as string. In case of error, returns None"""
         try:
             with open(file_path, "r") as f:
-                # f = open(file_path, "r")
-                # content = f.read()
-                # f.close()
                 return f.read()
         except FileNotFoundError:
             print(f"Error: The file '{file_path}' was not found.")
@@ -57,8 +48,6 @@ class FileManager:
         """Adds content to the end of a file."""
         try:
             with open(file_path, "w") as f:
-                # f = open(file_path, "w")
                 f.write(content)
-                # f.close()
         except Exception as error:
             print(f"Error when trying to add content to file: {error}")
