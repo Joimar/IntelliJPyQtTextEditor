@@ -37,9 +37,10 @@ class TextEditorService:
             self._is_updating = False
             self._saved = True
 
-            with open(file_path, "r") as file:
-                # self._current_text = file.read()
-                return file.read()
+            # with open(file_path, "r") as file:
+            #     # self._current_text = file.read()
+            #     return file.read()
+            return FileManager.FileManager.read(file_path)
 
         return None
 
