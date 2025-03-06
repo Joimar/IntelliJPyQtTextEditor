@@ -29,7 +29,7 @@ class FileManager:
                 # f.close()
 
         except FileExistsError as error:
-            print(error)
+            print(f"Error when trying to update file: {error}")
 
     @staticmethod
     def read(name):
