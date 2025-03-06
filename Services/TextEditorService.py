@@ -45,7 +45,7 @@ class TextEditorService:
 
     def save_file(self, text, file_name):
         self._saved = True
-        FileManager.FileManager.updatingFile(self, self._file_path, text)
+        FileManager.FileManager.updatingFile(self._file_path, text)
         self._is_modified = False
         self._is_updating = False
 
@@ -60,7 +60,7 @@ class TextEditorService:
 
     def save_new_file(self, text, file_path):
         if file_path:
-            FileManager.FileManager.append(self, file_path, text)
+            FileManager.FileManager.append(file_path, text)
             self._is_modified = False
             self._saved = True
             self._file_path = file_path
@@ -74,7 +74,7 @@ class TextEditorService:
             self._is_updating = True
 
     def file_exist(self):
-        return FileManager.FileManager.checkFile(self, self._file_path)
+        return FileManager.FileManager.checkFile(self._file_path)
 
     # def is_title_updated(self, text):
     #     if self._file_name != text:

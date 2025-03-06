@@ -7,7 +7,7 @@ class FileManager:
     __file = ""
 
     @staticmethod
-    def checkFile(self, str):
+    def checkFile(str):
 
         if os.path.isfile(str):
             return True
@@ -15,12 +15,12 @@ class FileManager:
             return False
 
     @staticmethod
-    def extractFileName(self, name):
+    def extractFileName(name):
 
         return os.path.basename(urlparse(name).path)
 
     @staticmethod
-    def updatingFile(self, name, content):
+    def updatingFile(name, content):
 
         try:
             f = open(name, "r+")
@@ -32,7 +32,7 @@ class FileManager:
             print(error)
 
     @staticmethod
-    def read(self, name):
+    def read(name):
 
         try:
             f = open(name, "r")
@@ -43,7 +43,7 @@ class FileManager:
             print(error)
 
     @staticmethod
-    def append(self, name, content):
+    def append(name, content):
         f = open(name, "w")
         f.write(content)
         f.close()
