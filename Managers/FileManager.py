@@ -16,8 +16,10 @@ class FileManager:
         #     return False
 
     @staticmethod
-    def extractFileName(name):
-        return os.path.basename(urlparse(name).path)
+    def extractFileName(file_path):
+        """Returns only the name of the file by its complete path."""
+        # return os.path.basename(urlparse(file_path).path)
+        return os.path.basename(file_path)
 
     @staticmethod
     def updatingFile(file_path, content):
