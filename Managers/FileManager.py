@@ -20,13 +20,13 @@ class FileManager:
         return os.path.basename(urlparse(name).path)
 
     @staticmethod
-    def updatingFile(name, content):
+    def updatingFile(file_path, content):
 
         try:
-            f = open(name, "r+")
-            f.truncate(0)
-            f.write(content)
-            f.close()
+            with open(file_path, "w") as f:
+                # f.truncate(0)
+                f.write(content)
+                # f.close()
 
         except FileExistsError as error:
             print(error)
