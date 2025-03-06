@@ -74,9 +74,7 @@ class TextEditorService:
             self._is_updating = True
 
     def file_exist(self):
-        if FileManager.FileManager.checkFile(self, self._file_path):
-            return True
-        return False
+        return FileManager.FileManager.checkFile(self, self._file_path)
 
     # def is_title_updated(self, text):
     #     if self._file_name != text:
