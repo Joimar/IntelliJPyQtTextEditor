@@ -51,7 +51,12 @@ class FileManager:
             return None
 
     @staticmethod
-    def append(name, content):
-        f = open(name, "w")
-        f.write(content)
-        f.close()
+    def append(file_path, content):
+        """Adds content to the end of a file."""
+        try:
+            with open(file_path, "w") as f:
+                # f = open(file_path, "w")
+                f.write(content)
+                # f.close()
+        except Exception as error:
+            print(f"Error when trying to add content to file: {error}")
