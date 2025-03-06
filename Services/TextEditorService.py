@@ -1,6 +1,6 @@
 import os
 
-from Managers import FileManager
+from Managers.FileManager import FileManager
 
 
 class TextEditorService:
@@ -37,19 +37,19 @@ class TextEditorService:
             self._is_updating = False
             self._saved = True
 
-            return FileManager.FileManager.read(file_path)
+            return FileManager.read(file_path)
 
         return None
 
-    def save_file(self, text, file_name):
+    def save_file(self, text):
         self._saved = True
-        FileManager.FileManager.updatingFile(self._file_path, text)
+        FileManager.updatingFile(self._file_path, text)
         self._is_modified = False
         self._is_updating = False
 
-    def save_new_file(self, text, file_path):
+    def save_as(self, text, file_path):
         if file_path:
-            FileManager.FileManager.append(file_path, text)
+            FileManager.append(file_path, text)
             self._is_modified = False
             self._saved = True
             self._file_path = file_path
@@ -60,7 +60,7 @@ class TextEditorService:
             self._is_updating = True
 
     def file_exist(self):
-        return FileManager.FileManager.checkFile(self._file_path)
+        return FileManager.checkFile(self._file_path)
 
     def set_text(self, text):
         # self._current_text = text

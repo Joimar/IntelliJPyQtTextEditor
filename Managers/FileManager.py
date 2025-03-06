@@ -1,7 +1,6 @@
 import os
 
 class FileManager:
-    __file = ""
 
     @staticmethod
     def checkFile(file_path):
