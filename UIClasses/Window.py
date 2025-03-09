@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 from PySide6.QtCore import QFileInfo
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
-from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from PySide6.QtWidgets import QMessageBox
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 import enchant
@@ -90,15 +90,24 @@ class MainWindow(QMainWindow):
         previewDialog.exec_()
 
     def pressExportPDF(self):
+        """Exports the current document as a PDF file."""
 
-        fn, _ = QFileDialog.getSaveFileName(self, "Export PDF", None, "PDF files (.pdf);;All Files")
+        file_path, _ = QFileDialog.getSaveFileName(self, "Export PDF", "", "PDF files (*.pdf);;All Files")
+        if not file_path:  # Verify if user canceled the dialog
+            return
 
-        if fn != '':
-            if QFileInfo(fn).suffix() == "":
-                fn += '.pdf'
-                printer = QPrinter(QPrinter.PrinterMode.HighResolution)
-                printer.setOutputFileName(fn)
-                self.ui.plainTextEdit.document().print_(printer)
+        # Ensure that the extensions .pdf be correctly added
+        if not file_path.lower().endswith(".pdf"):
+            file_path += ".pdf"
+
+        try:
+            printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+            printer.setOutputFileName(file_path)
+            self.ui.plainTextEdit.document().print_(printer)
+            QMessageBox.information(self, "Export Completed", f"File saved in:\n{file_path}")  # Message of success
+
+        except Exception as e:  # Captura possíveis erros
+            QMessageBox.critical(self, "Error of Exporting", f"Not possible to export PDF file.\nErro: {str(e)}")
 
     def pressAppearanceSetDarkMode(self):
 
