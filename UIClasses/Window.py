@@ -4,6 +4,7 @@ from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
+from StyleFiles.AppThemes import AppTheme
 import enchant
 
 from UIClasses.FontSizeWindow import FontSizeWindow
@@ -110,22 +111,29 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, "Error of Exporting", f"Not possible to export PDF file.\nErro: {str(e)}")
 
     def pressAppearanceSetDarkMode(self):
+        # Bug report: when in darkmode, items in menu bar chenge paddings
 
-        self.setStyleSheet('''QWidget{
-            background-color: rgb(33,33,33);
-            color: #FFFFFF;
-            }
-            QPlainTextEdit{
-            background-color: rgb(46,46,46);
-            }
-            QMenuBar::item:selected{
-            color: #000000
-            } ''')
+        # self.setStyleSheet('''QWidget{
+        #     background-color: rgb(33,33,33);
+        #     color: #FFFFFF;
+        #     }
+        #     QPlainTextEdit{
+        #     background-color: rgb(46,46,46);
+        #     }
+        #     QMenuBar::item:selected{
+        #     color: #000000
+        #     } ''')
+
+        self.apply_stylesheet(AppTheme.DARK)
 
     def pressAppearanceSetLightMode(self):
 
         self.setStyleSheet("")
         self.ui.plainTextEdit.font().setPointSize(90)
+
+    def apply_stylesheet(self, theme: AppTheme):
+        """Apply a specific style to the application."""
+        self.setStyleSheet(theme.value)
 
     def closeEvent(self, event):
         # overwritten method to trigger an event when user closes the program
