@@ -1,0 +1,28 @@
+# Ignora a pasta venv
+venv/
+
+# Ignora arquivos de cache do Python
+__pycache__/
+*.pyc
+
+# Ignora arquivos de configuração local
+.env
+.venv
+env/
+ UIFiles/__pycache__/
+ UIClasses/__pycache__/
+ Services/__pycache__/
+ StyleFiles/__pycache__/
+# Ignora arquivos de IDE
+.vscode/
+.idea/
+
+# Ignorar txt e pdf
+*.txt
+*.pdf
+
+# Ignorar .iml
+*.iml
+# Ignora arquivos de sistema
+.DS_Store
+Thumbs.db
