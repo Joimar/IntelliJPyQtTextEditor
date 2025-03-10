@@ -12,7 +12,7 @@ from UIFiles.UIMainWindow import Ui_MainWindow
 
 from Services.TextEditorService import TextEditorService
 
-
+# Develop merged
 class MainWindow(QMainWindow):
 
     __fontSizeWindow = None
