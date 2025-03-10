@@ -1,49 +1,49 @@
 import os
-from urllib.parse import urlparse
-from PyQt6.QtWidgets import QFileDialog, QMessageBox
-
 
 class FileManager:
-    __file = ""
 
     @staticmethod
-    def checkFile(self, str):
-
-        if os.path.isfile(str):
-            return True
-        else:
-            return False
+    def checkFile(file_path):
+        """Verify if a file exists."""
+        return os.path.isfile(file_path)
 
     @staticmethod
-    def extractFileName(self, name):
-
-        return os.path.basename(urlparse(name).path)
+    def extractFileName(file_path):
+        """Returns only the name of the file by its complete path."""
+        # return os.path.basename(urlparse(file_path).path)
+        return os.path.basename(file_path)
 
     @staticmethod
-    def updatingFile(self, name, content):
-
+    def updatingFile(file_path, content):
+        """Overwrite the content of an existing file."""
         try:
-            f = open(name, "r+")
-            f.truncate(0)
-            f.write(content)
-            f.close()
+            with open(file_path, "w") as f:
+                f.write(content)
 
         except FileExistsError as error:
-            print(error)
+            print(f"Error when trying to update file: {error}.")
 
     @staticmethod
-    def read(self, name):
-
+    def read(file_path):
+        """Read the content of a file and returns it as string. In case of error, returns None"""
         try:
-            f = open(name, "r")
-            content = f.read()
-            f.close()
-            return content
+            with open(file_path, "r") as f:
+                return f.read()
+        except FileNotFoundError:
+            print(f"Error: The file '{file_path}' was not found.")
+            return None
         except FileExistsError as error:
-            print(error)
+            print(f"Error: file does not exist: {error}.")
+            return None
+        except Exception as error:
+            print(f"Error: Not possible to read the file: {error}")
+            return None
 
     @staticmethod
-    def append(self, name, content):
-        f = open(name, "w")
-        f.write(content)
-        f.close()
+    def append(file_path, content):
+        """Adds content to the end of a file."""
+        try:
+            with open(file_path, "w") as f:
+                f.write(content)
+        except Exception as error:
+            print(f"Error when trying to add content to file: {error}")

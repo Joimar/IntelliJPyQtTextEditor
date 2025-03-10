@@ -1,34 +1,37 @@
 # This Python file uses the following encoding: utf-8
 from PySide6.QtCore import QFileInfo
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
-from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from PySide6.QtWidgets import QMessageBox
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
+from StyleFiles.AppThemes import AppTheme
 import enchant
-import os.path
 
 from UIClasses.FontSizeWindow import FontSizeWindow
 from UIFiles.UIMainWindow import Ui_MainWindow
-from Managers import FileManager
+
+from Services.TextEditorService import TextEditorService
 
 
 class MainWindow(QMainWindow):
-    __current_file = ""
-    __file_changed = False
-    __saved = False
-    __pressedSaved = False
+
     __fontSizeWindow = None
+    # Criando instância do serviço antes de usá-lo
+    __service = TextEditorService()
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.__is_updating = False
+
         # File Actions
-        self.ui.actionNew.triggered.connect(self.pressFileNew)
+        self.ui.actionNew.triggered.connect(self.press_file_new)
         self.ui.actionSave.triggered.connect(self.pressFileSave)
         self.ui.actionSave.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionSave_as.triggered.connect(self.pressFileSaveAs)
+        self.ui.actionSave_as.triggered.connect(self.ui.plainTextEdit.textChanged)
         self.ui.actionOpen.triggered.connect(self.pressFileOpen)
         self.ui.actionPrint.triggered.connect(self.pressFilePrint)
         self.ui.actionExport_PDF.triggered.connect(self.pressExportPDF)
@@ -41,94 +44,45 @@ class MainWindow(QMainWindow):
         self.ui.actionSet_Light_Mode.triggered.connect(self.pressAppearanceSetLightMode)
         self.ui.actionChange_Font_Size.triggered.connect(self.pressAppearanceChangeFont)
 
-        self.ui.plainTextEdit.textChanged.connect(self.__setFileChanged)
+        self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
 
         self.setWindowTitle("Text Editor")
 
         # actions from font size window
-        d = enchant.Dict("en_US")
+        # d = enchant.Dict("en_US")
 
-    def __setFileChanged(self):
-        # set __file_changed to True or False
-        if self.__pressedSaved:
-            self.__file_changed = False
-            self.__saved = True
-            self.__pressedSaved = False
-        else:
-            self.__file_changed = True
-            self.__pressedSaved = False
-            self.__saved = False
-            self.ui.plainTextEdit.blockSignals(True)
+    def __on_text_changed(self):
+        self.__service.on_text_changed()
 
-    def extractFileName(self, url):
-        # extract the file name from the whole path string
-
-        return FileManager.FileManager.extractFileName(self, url)
-
-    def pressFileNew(self):
+    def press_file_new(self):
         # creates new file and cleans plaintext
-        print(self.__current_file)
+        self.__service.new_file()
         self.ui.plainTextEdit.clear()
-        self.setWindowTitle("Untitled")
-        self.__current_file = ""
-        self.__file_changed = False
-        self.__saved = False
+        self.updateWindowTitle()
 
     # Open Functionalities are done
     def pressFileOpen(self):
         # Opens a specific txt file selected by user
-        self.ui.plainTextEdit.blockSignals(True)
-        file = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
-
-        if os.path.exists(file[0]):
-            self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-            self.ui.plainTextEdit.clear()
-            f = open(file[0], "r")
-            self.ui.plainTextEdit.setPlainText(f.read())
-            f.close()
-            self.__current_file = file[0]
-        self.__file_changed = False
-        self.__saved = True
-        self.ui.plainTextEdit.blockSignals(False)
+        file_path, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
+        text = self.__service.open_file(file_path)
+        if text is not None:
+            self.ui.plainTextEdit.setPlainText(text)
+            self.updateWindowTitle()
 
     def pressFileSave(self):
-
-        # save a file or modification when user clicks in save option
-        if FileManager.FileManager.checkFile(self, self.__current_file):
-            # check if file already exists. If so, program is handling with an opened file and not a just created one
-            FileManager.FileManager.updatingFile(self, self.__current_file, self.ui.plainTextEdit.toPlainText())
-            self.__pressedSaved = True
-            self.ui.plainTextEdit.blockSignals(False)
+        text = self.ui.plainTextEdit.toPlainText()
+        if self.__service.file_exist():
+            self.__service.save_file(text)
         else:
-            # if not exist yet
-            file = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
-            self.__pressedSaved = True
-            self.ui.plainTextEdit.blockSignals(False)
-            if len(file[0]) > 0:
-                FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
-                self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-                self.__file_changed = False
-                self.__saved = True
-            else:
-                self.__saved = False
-                self.__file_changed = True
-            self.__current_file = file[0]
+            self.pressFileSaveAs()
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
-        file = QFileDialog.getSaveFileName(self, 'Saving As', "Document", "All Files (*)")
-        self.__pressedSaved = True
-        self.ui.plainTextEdit.blockSignals(False)
-        if len(file[0]) > 0:
-            # ensure that user gave a name to the file during saving
-            FileManager.FileManager.append(self, file[0], self.ui.plainTextEdit.toPlainText())
-            self.setWindowTitle(FileManager.FileManager.extractFileName(self, file[0]))
-            self.__file_changed = False
-            self.__saved = True
-        else:
-            self.__saved = False
-            self.__file_changed = True
-            self.__current_file = file[0]
+        text = self.ui.plainTextEdit.toPlainText()
+        file_path, _ = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
+        self.__service.save_as(text, file_path)
+        self.updateWindowTitle()
+
     def pressFilePrint(self):
 
         printer = QPrinter()
@@ -137,40 +91,55 @@ class MainWindow(QMainWindow):
         previewDialog.exec_()
 
     def pressExportPDF(self):
+        """Exports the current document as a PDF file."""
 
-        fn, _ = QFileDialog.getSaveFileName(self, "Export PDF", None, "PDF files (.pdf);;All Files")
+        file_path, _ = QFileDialog.getSaveFileName(self, "Export PDF", "", "PDF files (*.pdf);;All Files")
+        if not file_path:  # Verify if user canceled the dialog
+            return
 
-        if fn != '':
-            if QFileInfo(fn).suffix() == "":
-                fn += '.pdf'
-                printer = QPrinter(QPrinter.PrinterMode.HighResolution)
-                printer.setOutputFileName(fn)
-                self.ui.plainTextEdit.document().print_(printer)
+        # Ensure that the extensions .pdf be correctly added
+        if not file_path.lower().endswith(".pdf"):
+            file_path += ".pdf"
+
+        try:
+            printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+            printer.setOutputFileName(file_path)
+            self.ui.plainTextEdit.document().print_(printer)
+            QMessageBox.information(self, "Export Completed", f"File saved in:\n{file_path}")  # Message of success
+
+        except Exception as e:  # Captura possíveis erros
+            QMessageBox.critical(self, "Error of Exporting", f"Not possible to export PDF file.\nErro: {str(e)}")
 
     def pressAppearanceSetDarkMode(self):
+        # Bug report: when in darkmode, items in menu bar chenge paddings
 
-        self.setStyleSheet('''QWidget{
-            background-color: rgb(33,33,33);
-            color: #FFFFFF;
-            }
-            QPlainTextEdit{
-            background-color: rgb(46,46,46);
-            }
-            QMenuBar::item:selected{
-            color: #000000
-            } ''')
+        # self.setStyleSheet('''QWidget{
+        #     background-color: rgb(33,33,33);
+        #     color: #FFFFFF;
+        #     }
+        #     QPlainTextEdit{
+        #     background-color: rgb(46,46,46);
+        #     }
+        #     QMenuBar::item:selected{
+        #     color: #000000
+        #     } ''')
+
+        self.apply_stylesheet(AppTheme.DARK)
 
     def pressAppearanceSetLightMode(self):
 
         self.setStyleSheet("")
         self.ui.plainTextEdit.font().setPointSize(90)
 
+    def apply_stylesheet(self, theme: AppTheme):
+        """Apply a specific style to the application."""
+        self.setStyleSheet(theme.value)
 
     def closeEvent(self, event):
         # overwritten method to trigger an event when user closes the program
         # calls a dialog asking if user wants to save or discard the changes
 
-        if self.__file_changed == True and self.__saved == False:
+        if self.__service.get_modified():
             box = QMessageBox()
             box.setWindowTitle("Program Name")
             box.setText("Do you want to save the changes?")
@@ -179,8 +148,8 @@ class MainWindow(QMainWindow):
 
             returnValue = box.exec()
             if returnValue == QMessageBox.StandardButton.Save:
-                self.__file_changed = False
-                self.__saved = True
+                self.__service.set_is_modified(False)
+                self.__service.set_save(True)
                 self.pressFileSave()
                 event.accept()
 
@@ -211,8 +180,9 @@ class MainWindow(QMainWindow):
         self.__fontSizeWindow.show()
 
     def updateFontSize(self):
-
         self.ui.plainTextEdit.setFont(QFont('Arial', self.__fontSizeWindow.ui.spinBox.value()))
 
-
-
+    def updateWindowTitle(self):
+        if self.__service.file_exist():
+            file_name = self.__service.get_file_name()
+            self.setWindowTitle(file_name)
