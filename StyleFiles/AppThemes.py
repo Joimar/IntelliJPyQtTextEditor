@@ -18,7 +18,7 @@ class AppTheme(Enum):
         background-color: #424242;
         color: #FFFFFF;
         border: 1px solid #555555;
-        padding: 5px;
+        
         border-radius: 3px;
     }
     QPushButton:hover {
@@ -32,7 +32,7 @@ class AppTheme(Enum):
     QMenuBar::item {
         background: transparent;
         color: #FFFFFF;
-        padding: 5px 10px;
+        
     }
     QMenuBar::item:selected {
         background: #555555;
@@ -67,63 +67,4 @@ class AppTheme(Enum):
     }
     '''
 
-    LIGHT = """
-    QWidget {
-        background-color: #FFFFFF;
-        color: #000000;
-    }
-
-    QPlainTextEdit {
-        background-color: #F0F0F0;
-        color: #000000;
-        border: 1px solid #CCCCCC;
-    }
-
-    QPushButton {
-        background-color: #E0E0E0;
-        color: #000000;
-        border: 1px solid #CCCCCC;
-        padding: 5px;
-        border-radius: 3px;
-    }
-    QPushButton:hover {
-        background-color: #DDDDDD;
-    }
-
-    QMenuBar {
-        background-color: #F0F0F0;
-    }
-
-    QMenuBar::item {
-        background: transparent;
-        color: #000000;
-        padding: 5px 10px;
-    }
-    QMenuBar::item:selected {
-        background: #CCCCCC;
-    }
-
-    QMenu {
-        background-color: #FFFFFF;
-        color: #000000;
-        border: 1px solid #CCCCCC;
-    }
-    QMenu::item:selected {
-        background-color: #CCCCCC;
-    }
-
-    QScrollBar:vertical {
-        background: #F0F0F0;
-        width: 10px;
-    }
-    QScrollBar::handle:vertical {
-        background: #CCCCCC;
-        min-height: 20px;
-        border-radius: 5px;
-    }
-    QToolTip {
-        background-color: #F0F0F0;
-        color: #000000;
-        border: 1px solid #CCCCCC;
-    }
-    """
+    LIGHT = ""
