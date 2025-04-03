@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtCore import QFileInfo
+#from PySide6.QtCore import QFileInfo
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PySide6.QtWidgets import QMessageBox, QApplication
 from PySide6.QtGui import QFont, QPalette
@@ -111,44 +111,12 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, "Error of Exporting", f"Not possible to export PDF file.\nErro: {str(e)}")
 
     def pressAppearanceSetDarkMode(self):
-        # Bug report: when in darkmode, items in menu bar chenge paddings
-
-        # self.setStyleSheet('''QWidget{
-        #     background-color: rgb(33,33,33);
-        #     color: #FFFFFF;
-        #     }
-        #     QPlainTextEdit{
-        #     background-color: rgb(46,46,46);
-        #     }
-        #     QMenuBar::item:selected{
-        #     color: #000000
-        #     } ''')
 
         self.apply_stylesheet(AppTheme.DARK)
 
     def pressAppearanceSetLightMode(self):
-        self.ui.plainTextEdit.getPaintContext()
-        #_____________________Test_______________________________________
-
-        # Suponha que self.menu seja o QMenu
-        menu_palette = self.ui.menubar.palette() #self.menuBar().palette()
-
-        # Cor de fundo normal
-        background_color = menu_palette.color(QPalette.Window)
-
-        # Cor de fundo quando o item está em hover ou selecionado
-        hover_bg_color = menu_palette.color(QPalette.Highlight)
-
-        # Cor do texto quando o item está em hover/selecionado
-        hover_text_color = menu_palette.color(QPalette.HighlightedText)
-
-        print(f"Cor de fundo: {background_color.name()}")
-        print(f"Cor de fundo em hover: {hover_bg_color.name()}")
-        print(f"Cor do texto em hover: {hover_text_color.name()}")
-    #___________________________________________________________________
 
         self.apply_stylesheet(AppTheme.LIGHT)
-
 
     def apply_stylesheet(self, theme: AppTheme):
         """Apply a specific style to the application."""
