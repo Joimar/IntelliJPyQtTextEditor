@@ -39,10 +39,17 @@ class AppTheme(Enum):
     }
 
     QMenu {
-        background-color: #333333;
-        color: #FFFFFF;
-        border: 1px solid #555555;
+        background-color: #333;
+    color: white;
+    border: 1px solid #444;
+    padding: 5px; 
+    margin: 2px; 
     }
+    
+    QMenu::item {
+    padding: 4px 20px; 
+}
+    
     QMenu::item:selected {
         background-color: #555555;
     }
