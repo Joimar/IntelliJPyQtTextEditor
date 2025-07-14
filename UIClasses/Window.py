@@ -4,6 +4,8 @@ from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PySide6.QtWidgets import QMessageBox, QApplication
 from PySide6.QtGui import QFont, QPalette
 from PySide6.QtWidgets import QMainWindow, QFileDialog
+
+from Services.SpellCheckingHighLighter import SpellCheckingHighLighter
 from StyleFiles.AppThemes import AppTheme
 import enchant
 
@@ -25,7 +27,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.__is_updating = False
-
+        self.highlighter = SpellCheckingHighLighter(self.ui.plainTextEdit.document())
         # File Actions
         self.ui.actionNew.triggered.connect(self.press_file_new)
         self.ui.actionSave.triggered.connect(self.pressFileSave)
