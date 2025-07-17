@@ -59,9 +59,21 @@
     <addaction name="separator"/>
     <addaction name="actionChange_Font_Size"/>
    </widget>
+   <widget class="QMenu" name="menuLanguage">
+    <property name="title">
+     <string>Language</string>
+    </property>
+    <addaction name="actionpt"/>
+    <addaction name="actiones"/>
+    <addaction name="actionfr"/>
+    <addaction name="actionde"/>
+    <addaction name="actionen"/>
+    <addaction name="actionru"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuAppearance"/>
+   <addaction name="menuLanguage"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew">
@@ -138,6 +150,36 @@
   <action name="actionExport_PDF">
    <property name="text">
     <string>Export PDF</string>
+   </property>
+  </action>
+  <action name="actionpt">
+   <property name="text">
+    <string>pt</string>
+   </property>
+  </action>
+  <action name="actiones">
+   <property name="text">
+    <string>es</string>
+   </property>
+  </action>
+  <action name="actionfr">
+   <property name="text">
+    <string>fr</string>
+   </property>
+  </action>
+  <action name="actionde">
+   <property name="text">
+    <string>de</string>
+   </property>
+  </action>
+  <action name="actionen">
+   <property name="text">
+    <string>en</string>
+   </property>
+  </action>
+  <action name="actionru">
+   <property name="text">
+    <string>ru</string>
    </property>
   </action>
  </widget>

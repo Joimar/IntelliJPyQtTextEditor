@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'UIMainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.1
+## Created by: Qt User Interface Compiler version 6.6.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -47,6 +47,18 @@ class Ui_MainWindow(object):
         self.actionPrint.setObjectName(u"actionPrint")
         self.actionExport_PDF = QAction(MainWindow)
         self.actionExport_PDF.setObjectName(u"actionExport_PDF")
+        self.actionpt = QAction(MainWindow)
+        self.actionpt.setObjectName(u"actionpt")
+        self.actiones = QAction(MainWindow)
+        self.actiones.setObjectName(u"actiones")
+        self.actionfr = QAction(MainWindow)
+        self.actionfr.setObjectName(u"actionfr")
+        self.actionde = QAction(MainWindow)
+        self.actionde.setObjectName(u"actionde")
+        self.actionen = QAction(MainWindow)
+        self.actionen.setObjectName(u"actionen")
+        self.actionru = QAction(MainWindow)
+        self.actionru.setObjectName(u"actionru")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -66,6 +78,8 @@ class Ui_MainWindow(object):
         self.menuEdit.setObjectName(u"menuEdit")
         self.menuAppearance = QMenu(self.menubar)
         self.menuAppearance.setObjectName(u"menuAppearance")
+        self.menuLanguage = QMenu(self.menubar)
+        self.menuLanguage.setObjectName(u"menuLanguage")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -74,6 +88,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuAppearance.menuAction())
+        self.menubar.addAction(self.menuLanguage.menuAction())
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addSeparator()
@@ -89,6 +104,12 @@ class Ui_MainWindow(object):
         self.menuAppearance.addAction(self.actionSet_Light_Mode)
         self.menuAppearance.addSeparator()
         self.menuAppearance.addAction(self.actionChange_Font_Size)
+        self.menuLanguage.addAction(self.actionpt)
+        self.menuLanguage.addAction(self.actiones)
+        self.menuLanguage.addAction(self.actionfr)
+        self.menuLanguage.addAction(self.actionde)
+        self.menuLanguage.addAction(self.actionen)
+        self.menuLanguage.addAction(self.actionru)
 
         self.retranslateUi(MainWindow)
 
@@ -129,8 +150,15 @@ class Ui_MainWindow(object):
         self.actionPrint.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+P", None))
 #endif // QT_CONFIG(shortcut)
         self.actionExport_PDF.setText(QCoreApplication.translate("MainWindow", u"Export PDF", None))
+        self.actionpt.setText(QCoreApplication.translate("MainWindow", u"pt", None))
+        self.actiones.setText(QCoreApplication.translate("MainWindow", u"es", None))
+        self.actionfr.setText(QCoreApplication.translate("MainWindow", u"fr", None))
+        self.actionde.setText(QCoreApplication.translate("MainWindow", u"de", None))
+        self.actionen.setText(QCoreApplication.translate("MainWindow", u"en", None))
+        self.actionru.setText(QCoreApplication.translate("MainWindow", u"ru", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuEdit.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.menuAppearance.setTitle(QCoreApplication.translate("MainWindow", u"Appearance", None))
+        self.menuLanguage.setTitle(QCoreApplication.translate("MainWindow", u"Language", None))
     # retranslateUi
 
