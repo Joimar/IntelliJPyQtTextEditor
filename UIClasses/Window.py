@@ -46,6 +46,12 @@ class MainWindow(QMainWindow):
         self.ui.actionSet_Light_Mode.triggered.connect(self.pressAppearanceSetLightMode)
         self.ui.actionChange_Font_Size.triggered.connect(self.pressAppearanceChangeFont)
 
+        # Language Actions
+        self.ui.actionpt.triggered.connect(self.pressPT)
+        self.ui.actionpt.triggered.connect(self.pressEN)
+
+        # Spell Checker settings
+
         self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
 
         self.setWindowTitle("Text Editor")
@@ -175,3 +181,9 @@ class MainWindow(QMainWindow):
         if self.__service.file_exist():
             file_name = self.__service.get_file_name()
             self.setWindowTitle(file_name)
+
+    def pressPT(self):
+        self.highlighter.set_language('pt')
+
+    def pressEN(self):
+        self.highlighter.set_language('en')
