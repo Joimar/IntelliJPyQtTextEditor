@@ -49,6 +49,10 @@ class MainWindow(QMainWindow):
         # Language Actions
         self.ui.actionpt.triggered.connect(lambda: self.set_language('pt'))
         self.ui.actionen.triggered.connect(lambda: self.set_language('en'))
+        self.ui.actionen.triggered.connect(lambda: self.set_language('es'))
+        self.ui.actionen.triggered.connect(lambda: self.set_language('fr'))
+        self.ui.actionen.triggered.connect(lambda: self.set_language('de'))
+        self.ui.actionen.triggered.connect(lambda: self.set_language('ru'))
 
         # Spell Checker settings
 
