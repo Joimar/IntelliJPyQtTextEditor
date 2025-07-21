@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-#from PySide6.QtCore import QFileInfo
+# from PySide6.QtCore import QFileInfo
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PySide6.QtWidgets import QMessageBox, QApplication
 from PySide6.QtGui import QFont, QPalette
@@ -14,9 +14,9 @@ from UIFiles.UIMainWindow import Ui_MainWindow
 
 from Services.TextEditorService import TextEditorService
 
+
 # Develop merged
 class MainWindow(QMainWindow):
-
     __fontSizeWindow = None
     # Criando instância do serviço antes de usá-lo
     __service = TextEditorService()
