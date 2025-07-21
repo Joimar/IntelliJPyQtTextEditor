@@ -48,7 +48,7 @@ class MainWindow(QMainWindow):
 
         # Language Actions
         self.ui.actionpt.triggered.connect(self.pressPT)
-        self.ui.actionpt.triggered.connect(self.pressEN)
+        self.ui.actionen.triggered.connect(self.pressEN)
 
         # Spell Checker settings
 

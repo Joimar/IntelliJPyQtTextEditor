@@ -22,8 +22,9 @@ class SpellCheckingHighLighter(QSyntaxHighlighter):
                 index = self.occurrences_indexes(text, word)
                 for i in index:
                     self.setFormat(i, len(word), self.error_format)
+        # words.clear()
 
-    def set_language(self, lang: str):
+    def set_language(self, lang):
         """Altera o idioma do verificador ortográfico e reaplica o realce"""
         self._language = lang
         self.spell = SpellChecker(language=self._language)
