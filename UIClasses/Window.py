@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog
 
 from Services.SpellCheckingHighLighter import SpellCheckingHighLighter
 from StyleFiles.AppThemes import AppTheme
-import enchant
+
 
 from UIClasses.FontSizeWindow import FontSizeWindow
 from UIFiles.UIMainWindow import Ui_MainWindow
