@@ -47,8 +47,8 @@ class MainWindow(QMainWindow):
         self.ui.actionChange_Font_Size.triggered.connect(self.pressAppearanceChangeFont)
 
         # Language Actions
-        self.ui.actionpt.triggered.connect(self.pressPT)
-        self.ui.actionen.triggered.connect(self.pressEN)
+        self.ui.actionpt.triggered.connect(lambda: self.set_language('pt'))
+        self.ui.actionen.triggered.connect(lambda: self.set_language('en'))
 
         # Spell Checker settings
 
@@ -182,8 +182,5 @@ class MainWindow(QMainWindow):
             file_name = self.__service.get_file_name()
             self.setWindowTitle(file_name)
 
-    def pressPT(self):
-        self.highlighter.set_language('pt')
-
-    def pressEN(self):
-        self.highlighter.set_language('en')
+    def set_language(self, lang):
+        self.highlighter.set_language(lang)
