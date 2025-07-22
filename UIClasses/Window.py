@@ -1,8 +1,8 @@
 # This Python file uses the following encoding: utf-8
-# from PySide6.QtCore import QFileInfo
+
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
-from PySide6.QtWidgets import QMessageBox, QApplication
-from PySide6.QtGui import QFont, QPalette
+from PySide6.QtWidgets import QMessageBox
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 
 from Services.SpellCheckingHighLighter import SpellCheckingHighLighter
