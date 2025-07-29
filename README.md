@@ -1,4 +1,20 @@
+
+## Overview
+This is a simple text editor made in Python using Pyside6 (Qt Framework) to develop the GUI and qt-linguist to switch application language dinamically.
+
+## Instructions
+
+This how I converted GUI Qt designer files into python files to integrate them in the project
+
+```shell
+pyside6-uic UIMainWindow.ui -o UIMainWindow.py
+```
+This command below opens Qt Linguist
+```shell
+pyside6-linguist
+```
 ## Class Diagram here: (In Progress)
+
 https://lucid.app/lucidchart/b3bc5f04-7113-4b4d-bba3-53429326a05e/edit?invitationId=inv_cd46ab9e-c2cd-4486-b359-e808e8bd015f&page=HWEp-vi-RSFO#
 
 ## PlantUML Code (In Progress)
