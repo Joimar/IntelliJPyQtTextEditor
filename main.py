@@ -5,7 +5,7 @@ from UIClasses.Window import MainWindow
 
 
 if __name__ == '__main__':
-    print("Hello World!!!")
+    #print("Hello World!!!")
     app = QApplication(sys.argv)
     widget = MainWindow()
     widget.show()
