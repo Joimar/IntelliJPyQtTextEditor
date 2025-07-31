@@ -4,10 +4,9 @@ from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
-from PySide6.linguist import Linguist
+from PySide6.QtCore import QCoreApplication, QTranslator
 from Services.SpellCheckingHighLighter import SpellCheckingHighLighter
 from StyleFiles.AppThemes import AppTheme
-
 
 from UIClasses.FontSizeWindow import FontSizeWindow
 from UIFiles.UIMainWindow import Ui_MainWindow
@@ -75,7 +74,11 @@ class MainWindow(QMainWindow):
     # Open Functionalities are done
     def pressFileOpen(self):
         # Opens a specific txt file selected by user
-        file_path, _ = QFileDialog.getOpenFileName(self, 'Open file', '', 'Text files (*.txt)')
+        file_path, _ = QFileDialog.getOpenFileName(self,
+                                                   QCoreApplication.translate("MainWindow", "Open file"), '', 'Text '
+                                                                                                              'files '
+                                                                                                              '(*.txt)')
+
         text = self.__service.open_file(file_path)
         if text is not None:
             self.ui.plainTextEdit.setPlainText(text)
@@ -91,7 +94,9 @@ class MainWindow(QMainWindow):
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
         text = self.ui.plainTextEdit.toPlainText()
-        file_path, _ = QFileDialog.getSaveFileName(self, 'Saving File', "Document", 'Text files (*.txt)')
+        file_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate("MainWindow", "Saving File"),
+                                                   "Document", 'Text files (*.txt)')
+
         self.__service.save_as(text, file_path)
         self.updateWindowTitle()
 
@@ -105,7 +110,9 @@ class MainWindow(QMainWindow):
     def pressExportPDF(self):
         """Exports the current document as a PDF file."""
 
-        file_path, _ = QFileDialog.getSaveFileName(self, "Export PDF", "", "PDF files (*.pdf);;All Files")
+        file_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate("MainWindow", "Export PDF"), "",
+                                                   "PDF files (*.pdf);;All Files")
+
         if not file_path:  # Verify if user canceled the dialog
             return
 
@@ -117,7 +124,11 @@ class MainWindow(QMainWindow):
             printer = QPrinter(QPrinter.PrinterMode.HighResolution)
             printer.setOutputFileName(file_path)
             self.ui.plainTextEdit.document().print_(printer)
-            QMessageBox.information(self, "Export Completed", f"File saved in:\n{file_path}")  # Message of success
+
+            message_file_path = QCoreApplication.translate("ExportDialog", "File saved in {0}").format(file_path)
+            message_exported_pdf = QCoreApplication.translate("MainWindow", "Export Completed")
+
+            QMessageBox.information(self, message_exported_pdf, message_file_path)  # Message of success
 
         except Exception as e:  # Captura possíveis erros
             QMessageBox.critical(self, "Error of Exporting", f"Not possible to export PDF file.\nErro: {str(e)}")
