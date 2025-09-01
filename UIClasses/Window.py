@@ -223,4 +223,11 @@ class MainWindow(QMainWindow):
 
     def retranslateUi(self):
         self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
+
         self.ui.menuFile.setTitle(QCoreApplication.translate("MainWindow", "File"))
+        self.ui.actionNew.setText(QCoreApplication.translate("MainWindow", "New"))
+        self.ui.actionOpen.setText(QCoreApplication.translate("MainWindow", "Open"))
+        self.ui.actionSave.setText(QCoreApplication.translate("MainWindow", "Save"))
+        self.ui.actionSave_as.setText(QCoreApplication.translate("MainWindow", "Save as"))
+        self.ui.actionPrint.setText(QCoreApplication.translate("MainWindow", "Print"))
+        self.ui.actionExport_PDF.setText(QCoreApplication.translate("MainWindow", "Export PDF"))

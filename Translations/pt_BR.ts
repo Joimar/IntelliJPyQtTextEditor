@@ -23,8 +23,9 @@
     </message>
     <message>
         <location filename="../UIClasses/Window.py" line="114"/>
+        <location filename="../UIClasses/Window.py" line="233"/>
         <source>Export PDF</source>
-        <translation></translation>
+        <translation>Exportar PDF</translation>
     </message>
     <message>
         <location filename="../UIClasses/Window.py" line="132"/>
@@ -37,9 +38,34 @@
         <translation>Editor de Texto</translation>
     </message>
     <message>
-        <location filename="../UIClasses/Window.py" line="226"/>
+        <location filename="../UIClasses/Window.py" line="227"/>
         <source>File</source>
         <translation>Arquivo</translation>
+    </message>
+    <message>
+        <location filename="../UIClasses/Window.py" line="228"/>
+        <source>New</source>
+        <translation>Novo</translation>
+    </message>
+    <message>
+        <location filename="../UIClasses/Window.py" line="229"/>
+        <source>Open</source>
+        <translation>Abrir</translation>
+    </message>
+    <message>
+        <location filename="../UIClasses/Window.py" line="230"/>
+        <source>Save</source>
+        <translation>Salvar</translation>
+    </message>
+    <message>
+        <location filename="../UIClasses/Window.py" line="231"/>
+        <source>Save as</source>
+        <translation>Salvar como</translation>
+    </message>
+    <message>
+        <location filename="../UIClasses/Window.py" line="232"/>
+        <source>Print</source>
+        <translation>Imprimir</translation>
     </message>
 </context>
 </TS>
