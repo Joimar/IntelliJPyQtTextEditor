@@ -1,7 +1,8 @@
 # This Python file uses the following encoding: utf-8
+import os
 
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
-from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QMessageBox, QApplication
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 from PySide6.QtCore import QCoreApplication, QTranslator
@@ -46,7 +47,7 @@ class MainWindow(QMainWindow):
         self.ui.actionChange_Font_Size.triggered.connect(self.pressAppearanceChangeFont)
 
         # Language Actions
-        self.ui.actionpt.triggered.connect(lambda: self.set_language('pt'))
+        self.ui.actionpt.triggered.connect(lambda: self.set_language('pt_BR'))
         self.ui.actionen.triggered.connect(lambda: self.set_language('en'))
         self.ui.actiones.triggered.connect(lambda: self.set_language('es'))
         self.ui.actionfr.triggered.connect(lambda: self.set_language('fr'))
@@ -198,4 +199,28 @@ class MainWindow(QMainWindow):
             self.setWindowTitle(file_name)
 
     def set_language(self, lang):
-        self.highlighter.set_language(lang)
+
+        app = QApplication.instance()
+        # Remove tradutor antigo
+        if hasattr(self, "_translator") and self._translator:
+            app.removeTranslator(self._translator)
+
+        # Carrega novo tradutor
+
+        translation_file = f"Translations/{lang}.qm"
+        translator = QTranslator()
+
+        if os.path.exists(translation_file) and translator.load(translation_file):
+            app.installTranslator(translator)
+            print(f"Idioma alterado para: {lang}")
+
+            # Força a retradução de toda a UI
+            self.ui.retranslateUi(self)
+            # Retraduz strings manuais
+            self.retranslateUi()
+
+        #self.highlighter.set_language(lang)
+
+    def retranslateUi(self):
+        self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
+        
