@@ -223,4 +223,4 @@ class MainWindow(QMainWindow):
 
     def retranslateUi(self):
         self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
-        
+        self.ui.menuFile.setTitle(QCoreApplication.translate("MainWindow", "File"))

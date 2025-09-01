@@ -36,5 +36,10 @@
         <source>Text Editor</source>
         <translation>Editor de Texto</translation>
     </message>
+    <message>
+        <location filename="../UIClasses/Window.py" line="226"/>
+        <source>File</source>
+        <translation>Arquivo</translation>
+    </message>
 </context>
 </TS>
