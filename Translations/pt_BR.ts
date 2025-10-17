@@ -21,12 +21,7 @@
         <source>Saving File</source>
         <translation></translation>
     </message>
-    <message>
-        <location filename="../UIClasses/Window.py" line="114"/>
-        <location filename="../UIClasses/Window.py" line="233"/>
-        <source>Export PDF</source>
-        <translation>Exportar PDF</translation>
-    </message>
+
     <message>
         <location filename="../UIClasses/Window.py" line="132"/>
         <source>Export Completed</source>
@@ -44,6 +39,36 @@
         <source>File</source>
         <translation>Arquivo</translation>
     </message>
+    <message>
+        <location filename="../Utils/AppStrings.py" line="id:action_new"/>
+        <source>New</source>
+        <translation>Novo</translation>
+    </message>
+    <message>
+         <location filename="../Utils/AppStrings.py" line="id:action_open"/>
+         <source>Open</source>
+         <translation>Abrir</translation>
+    </message>
+    <message>
+         <location filename="../Utils/AppStrings.py" line="id:action_save"/>
+         <source>Save</source>
+         <translation>Salvar</translation>
+    </message>
+    <message>
+         <location filename="../Utils/AppStrings.py" line="id:action_save_as"/>
+         <source>Save as</source>
+         <translation>Salvar como</translation>
+    </message>
+    <message>
+         <location filename="../Utils/AppStrings.py" line="id:action_print"/>
+         <source>Print</source>
+         <translation>Imprimir</translation>
+    </message>
+        <message>
+             <location filename="../Utils/AppStrings.py" line="id:action_export_pdf"/>
+             <source>Export PDF</source>
+             <translation>Exportar PDF</translation>
+        </message>
 
 
     <message>
@@ -62,30 +87,6 @@
              <translation>Refazer</translation>
      </message>
 
-    <message>
-        <location filename="../UIClasses/Window.py" line="228"/>
-        <source>New</source>
-        <translation>Novo</translation>
-    </message>
-    <message>
-        <location filename="../UIClasses/Window.py" line="229"/>
-        <source>Open</source>
-        <translation>Abrir</translation>
-    </message>
-    <message>
-        <location filename="../UIClasses/Window.py" line="230"/>
-        <source>Save</source>
-        <translation>Salvar</translation>
-    </message>
-    <message>
-        <location filename="../UIClasses/Window.py" line="231"/>
-        <source>Save as</source>
-        <translation>Salvar como</translation>
-    </message>
-    <message>
-        <location filename="../UIClasses/Window.py" line="232"/>
-        <source>Print</source>
-        <translation>Imprimir</translation>
-    </message>
+
 </context>
 </TS>
