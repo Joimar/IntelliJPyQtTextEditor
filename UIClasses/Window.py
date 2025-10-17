@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import os
-
+from Utils.AppStrings import AppStrings
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PySide6.QtWidgets import QMessageBox, QApplication
 from PySide6.QtGui import QFont
@@ -224,10 +224,14 @@ class MainWindow(QMainWindow):
     def retranslateUi(self):
         self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
 
-        self.ui.menuFile.setTitle(QCoreApplication.translate("MainWindow", "File"))
-        self.ui.actionNew.setText(QCoreApplication.translate("MainWindow", "New"))
-        self.ui.actionOpen.setText(QCoreApplication.translate("MainWindow", "Open"))
-        self.ui.actionSave.setText(QCoreApplication.translate("MainWindow", "Save"))
-        self.ui.actionSave_as.setText(QCoreApplication.translate("MainWindow", "Save as"))
+        self.ui.menuFile.setTitle(QCoreApplication.translate(*AppStrings.MENU_FILE))
+        self.ui.actionNew.setText(QCoreApplication.translate(*AppStrings.ACTION_NEW))
+        self.ui.actionOpen.setText(QCoreApplication.translate(*AppStrings.ACTION_OPEN))
+        self.ui.actionSave.setText(QCoreApplication.translate(*AppStrings.ACTION_SAVE))
+        self.ui.actionSave_as.setText(QCoreApplication.translate(*AppStrings.ACTION_SAVE_AS))
         self.ui.actionPrint.setText(QCoreApplication.translate("MainWindow", "Print"))
         self.ui.actionExport_PDF.setText(QCoreApplication.translate("MainWindow", "Export PDF"))
+
+        self.ui.menuEdit.setTitle(QCoreApplication.translate(*AppStrings.MENU_EDIT))
+        self.ui.actionRedo.setText(QCoreApplication.translate(*AppStrings.ACTION_REDO))
+        self.ui.actionUndo.setText(QCoreApplication.translate(*AppStrings.ACTION_UNDO))

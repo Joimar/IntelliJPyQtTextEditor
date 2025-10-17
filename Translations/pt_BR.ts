@@ -37,11 +37,31 @@
         <source>Text Editor</source>
         <translation>Editor de Texto</translation>
     </message>
+
+
     <message>
-        <location filename="../UIClasses/Window.py" line="227"/>
+        <location filename="../Utils/AppStrings.py" line="id:menu_file"/>
         <source>File</source>
         <translation>Arquivo</translation>
     </message>
+
+
+    <message>
+            <location filename="../Utils/AppStrings.py" line="id:menu_edit"/>
+            <source>Edit</source>
+            <translation>Editar</translation>
+    </message>
+     <message>
+             <location filename="../Utils/AppStrings.py" line="id:action_undo"/>
+             <source>Undo</source>
+             <translation>Desfazer</translation>
+     </message>
+     <message>
+             <location filename="../Utils/AppStrings.py" line="id:action_redo"/>
+             <source>Redo</source>
+             <translation>Refazer</translation>
+     </message>
+
     <message>
         <location filename="../UIClasses/Window.py" line="228"/>
         <source>New</source>

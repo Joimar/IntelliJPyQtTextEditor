@@ -25,6 +25,32 @@ This one creates the `.qm` file based on the `.ts` file
 pyside6-lrelease Translations/pt_BR.ts -qm pt_BR.qm 
 ```
 
+### How the translation system is working here
+
+The way I was using `.ts` before was not efficient: the `.ts` file needed to know exactly the line of code where I inserted `QCoreApplication.translate(Context, String str)` (`Context` being the name of the class with message and `str` is the message). However, if I need to provide the line of code of the string that needs to switch I'd need to update `.ts` every single time I would change anything in MainWindow class (Window.py file).
+
+Well, I've created `AppStrings.py` to be the file with all strings and in `.ts` file it is necessary only the file name `AppStrings.py` to indicate the source from where to get the string and its id like below:
+
+```xml
+    <message>
+            <location filename="../Utils/AppStrings.py" line="id:menu_edit"/>
+            <source>Edit</source>
+            <translation>Editar</translation>
+    </message>
+```
+
+Before, the code in Window.py where I set the Action names was like this
+
+```python
+self.ui.menuFile.setTitle(QCoreApplication.translate("MainWindow", "File")) # File is the string content that wil change
+```
+
+Now is like:
+
+```python
+self.ui.menuFile.setTitle(QCoreApplication.translate(*AppStrings.MENU_FILE))
+```
+
 ## Class Diagram here: (In Progress)
 
 https://lucid.app/lucidchart/b3bc5f04-7113-4b4d-bba3-53429326a05e/edit?invitationId=inv_cd46ab9e-c2cd-4486-b359-e808e8bd015f&page=HWEp-vi-RSFO#

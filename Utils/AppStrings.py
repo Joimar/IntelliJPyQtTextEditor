@@ -25,5 +25,7 @@ class AppStrings:
     ACTION_OPEN = ("MainWindow", "Open")
     ACTION_SAVE = ("MainWindow", "Save")
     ACTION_SAVE_AS = ("MainWindow", "Save as")
+    ACTION_PRINT = ("MainWindow", "Print")
+    ACTION_EXPORT_PDF = ("MainWindow", "Export PDF")
     ACTION_UNDO = ("MainWindow", "Undo")
     ACTION_REDO = ("MainWindow", "Redo")
