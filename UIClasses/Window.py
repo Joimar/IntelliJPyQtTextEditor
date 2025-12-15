@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         self.Export_pdf = AppStrings.EXPORT_PDF
 
         self.setWindowTitle("Text Editor")
-
+        # self.set_language('en')
         # actions from font size window
         # d = enchant.Dict("en_US")
 
@@ -235,7 +235,10 @@ class MainWindow(QMainWindow):
 
         self.ui.retranslateUi(self)
         self.retranslateUi()
-        #self.highlighter.set_language(lang)
+        if lang == "pt_BR":
+            self.highlighter.set_language("pt")
+        else:
+            self.highlighter.set_language(lang)
 
     def retranslateUi(self):
         self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
