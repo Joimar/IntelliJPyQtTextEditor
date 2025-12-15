@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         self.Export_pdf = AppStrings.EXPORT_PDF
 
         self.setWindowTitle("Text Editor")
-        # self.set_language('en')
+        self.set_language('en')
         # actions from font size window
         # d = enchant.Dict("en_US")
 
