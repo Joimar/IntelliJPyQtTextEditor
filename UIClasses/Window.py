@@ -218,7 +218,7 @@ class MainWindow(QMainWindow):
         self._translator = QTranslator()
 
         translation_native_file = f"Translations/qtbase_{lang}.qm"
-        self.qt_base_translator = QTranslator()
+        self._qt_base_translator = QTranslator()
 
         if os.path.exists(translation_file) and self._translator.load(translation_file):
             app.installTranslator(self._translator)
@@ -229,8 +229,8 @@ class MainWindow(QMainWindow):
             # Retraduz strings manuais
             # self.retranslateUi()
 
-        if os.path.exists(translation_native_file) and self.qt_base_translator.load(translation_native_file):
-            app.installTranslator(self.qt_base_translator)
+        if os.path.exists(translation_native_file) and self._qt_base_translator.load(translation_native_file):
+            app.installTranslator(self._qt_base_translator)
             print(f"Idioma alterado para o padrão: qtbase_{lang}")
 
         self.ui.retranslateUi(self)
