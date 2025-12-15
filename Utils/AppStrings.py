@@ -9,9 +9,10 @@ class AppStrings:
     # ExportDialog
     FILE_SAVED = ("ExportDialog", "File saved in {0}")
     EXPORT_ERROR = ("ExportDialog", "Error of Exporting")
+    EXPORT_ERROR_MESSAGE = ("ExportDialog", "Not possible to export PDF file.\nError: ")
 
     # Close Event
-    PROGRAM_NAME = ("MainWindow", "Program Name")
+    PROGRAM_NAME = ("MainWindow", "Text Editor")
     SAVE_CHANGES_QUESTION = ("MainWindow", "Do you want to save the changes?")
 
     # Menus (já estão na UI, mas se precisar acessar no código)
@@ -29,3 +30,6 @@ class AppStrings:
     ACTION_EXPORT_PDF = ("MainWindow", "Export PDF")
     ACTION_UNDO = ("MainWindow", "Undo")
     ACTION_REDO = ("MainWindow", "Redo")
+    ACTION_SET_DARK_MODE = ("MainWindow", "Set Dark Mode")
+    ACTION_SET_LIGHT_MODE = ("MainWindow", "Set Light Mode")
+    ACTION_CHANGE_FONT_SIZE = ("MainWindow", "Change Font Size")

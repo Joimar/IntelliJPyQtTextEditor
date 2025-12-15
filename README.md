@@ -183,3 +183,7 @@ end note
 
 ## Image 
 ![alt text](JLNDRX~1.PNG)
+
+## Issues
+
+Currently the messages in other context windows such as Export PDF are not having their strings' content being changed for some reason.

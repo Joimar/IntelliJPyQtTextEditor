@@ -58,6 +58,9 @@ class MainWindow(QMainWindow):
 
         self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
 
+        # Messages for external windows
+        self.Export_pdf = AppStrings.EXPORT_PDF
+
         self.setWindowTitle("Text Editor")
 
         # actions from font size window
@@ -76,7 +79,7 @@ class MainWindow(QMainWindow):
     def pressFileOpen(self):
         # Opens a specific txt file selected by user
         file_path, _ = QFileDialog.getOpenFileName(self,
-                                                   QCoreApplication.translate("MainWindow", "Open file"), '', 'Text '
+                                                   QCoreApplication.translate(*AppStrings.OPEN_FILE), '', 'Text '
                                                                                                               'files '
                                                                                                               '(*.txt)')
 
@@ -95,7 +98,7 @@ class MainWindow(QMainWindow):
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
         text = self.ui.plainTextEdit.toPlainText()
-        file_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate("MainWindow", "Saving File"),
+        file_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate(*AppStrings.SAVING_FILE),
                                                    "Document", 'Text files (*.txt)')
 
         self.__service.save_as(text, file_path)
@@ -111,7 +114,7 @@ class MainWindow(QMainWindow):
     def pressExportPDF(self):
         """Exports the current document as a PDF file."""
 
-        file_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate("MainWindow", "Export PDF"), "",
+        file_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate(*self.Export_pdf), "",
                                                    "PDF files (*.pdf);;All Files")
 
         if not file_path:  # Verify if user canceled the dialog
@@ -126,13 +129,14 @@ class MainWindow(QMainWindow):
             printer.setOutputFileName(file_path)
             self.ui.plainTextEdit.document().print_(printer)
 
-            message_file_path = QCoreApplication.translate("ExportDialog", "File saved in {0}").format(file_path)
-            message_exported_pdf = QCoreApplication.translate("MainWindow", "Export Completed")
+            message_file_path = QCoreApplication.translate(*AppStrings.SAVING_FILE).format(file_path)
+            message_exported_pdf = QCoreApplication.translate(*AppStrings.EXPORT_COMPLETED)
 
             QMessageBox.information(self, message_exported_pdf, message_file_path)  # Message of success
 
         except Exception as e:  # Captura possíveis erros
-            QMessageBox.critical(self, "Error of Exporting", f"Not possible to export PDF file.\nErro: {str(e)}")
+            QMessageBox.critical(self, QCoreApplication.translate(*AppStrings.EXPORT_ERROR),
+                                 f"{QCoreApplication.translate(*AppStrings.EXPORT_ERROR_MESSAGE)}{str(e)}")
 
     def pressAppearanceSetDarkMode(self):
 
@@ -152,8 +156,8 @@ class MainWindow(QMainWindow):
 
         if self.__service.get_modified():
             box = QMessageBox()
-            box.setWindowTitle("Program Name")
-            box.setText("Do you want to save the changes?")
+            box.setWindowTitle(AppStrings.PROGRAM_NAME[1])
+            box.setText(QCoreApplication.translate(*AppStrings.SAVE_CHANGES_QUESTION))
             box.setStandardButtons(
                 QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel)
 
@@ -205,33 +209,52 @@ class MainWindow(QMainWindow):
         if hasattr(self, "_translator") and self._translator:
             app.removeTranslator(self._translator)
 
+        if hasattr(self, "_qt_translator") and self._qt_translator:
+            app.removeTranslator(self._qt_translator)
+
         # Carrega novo tradutor
 
         translation_file = f"Translations/{lang}.qm"
-        translator = QTranslator()
+        self._translator = QTranslator()
 
-        if os.path.exists(translation_file) and translator.load(translation_file):
-            app.installTranslator(translator)
+        translation_native_file = f"Translations/qtbase_{lang}.qm"
+        self.qt_base_translator = QTranslator()
+
+        if os.path.exists(translation_file) and self._translator.load(translation_file):
+            app.installTranslator(self._translator)
             print(f"Idioma alterado para: {lang}")
 
             # Força a retradução de toda a UI
-            self.ui.retranslateUi(self)
+            # self.ui.retranslateUi(self)
             # Retraduz strings manuais
-            self.retranslateUi()
+            # self.retranslateUi()
 
+        if os.path.exists(translation_native_file) and self.qt_base_translator.load(translation_native_file):
+            app.installTranslator(self.qt_base_translator)
+            print(f"Idioma alterado para o padrão: qtbase_{lang}")
+
+        self.ui.retranslateUi(self)
+        self.retranslateUi()
         #self.highlighter.set_language(lang)
 
     def retranslateUi(self):
         self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
+
+        self.Export_pdf = AppStrings.EXPORT_PDF
 
         self.ui.menuFile.setTitle(QCoreApplication.translate(*AppStrings.MENU_FILE))
         self.ui.actionNew.setText(QCoreApplication.translate(*AppStrings.ACTION_NEW))
         self.ui.actionOpen.setText(QCoreApplication.translate(*AppStrings.ACTION_OPEN))
         self.ui.actionSave.setText(QCoreApplication.translate(*AppStrings.ACTION_SAVE))
         self.ui.actionSave_as.setText(QCoreApplication.translate(*AppStrings.ACTION_SAVE_AS))
-        self.ui.actionPrint.setText(QCoreApplication.translate("MainWindow", "Print"))
-        self.ui.actionExport_PDF.setText(QCoreApplication.translate("MainWindow", "Export PDF"))
+        self.ui.actionPrint.setText(QCoreApplication.translate(*AppStrings.ACTION_PRINT))
+        self.ui.actionExport_PDF.setText(QCoreApplication.translate(*AppStrings.ACTION_EXPORT_PDF))
 
         self.ui.menuEdit.setTitle(QCoreApplication.translate(*AppStrings.MENU_EDIT))
         self.ui.actionRedo.setText(QCoreApplication.translate(*AppStrings.ACTION_REDO))
         self.ui.actionUndo.setText(QCoreApplication.translate(*AppStrings.ACTION_UNDO))
+
+        self.ui.menuAppearance.setTitle(QCoreApplication.translate(*AppStrings.MENU_APPEARANCE))
+        self.ui.actionSet_Dark_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_DARK_MODE))
+        self.ui.actionSet_Light_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_LIGHT_MODE))
+        self.ui.actionChange_Font_Size.setText(QCoreApplication.translate(*AppStrings.ACTION_CHANGE_FONT_SIZE))
