@@ -20,6 +20,7 @@ class MainWindow(QMainWindow):
     __fontSizeWindow = None
     # Criando instância do serviço antes de usá-lo
     __service = TextEditorService()
+    __initialized = False
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -67,7 +68,9 @@ class MainWindow(QMainWindow):
         # d = enchant.Dict("en_US")
 
     def __on_text_changed(self):
-        self.__service.on_text_changed()
+        if self.__initialized:
+            self.__service.on_text_changed()
+        self.__initialized = True
 
     def press_file_new(self):
         # creates new file and cleans plaintext
