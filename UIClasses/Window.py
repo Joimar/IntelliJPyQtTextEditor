@@ -83,8 +83,8 @@ class MainWindow(QMainWindow):
         # Opens a specific txt file selected by user
         file_path, _ = QFileDialog.getOpenFileName(self,
                                                    QCoreApplication.translate(*AppStrings.OPEN_FILE), '', 'Text '
-                                                                                                              'files '
-                                                                                                              '(*.txt)')
+                                                                                                          'files '
+                                                                                                          '(*.txt)')
 
         text = self.__service.open_file(file_path)
         if text is not None:
@@ -238,6 +238,7 @@ class MainWindow(QMainWindow):
 
         self.ui.retranslateUi(self)
         self.retranslateUi()
+
         if lang == "pt_BR":
             self.highlighter.set_language("pt")
         else:
@@ -264,3 +265,4 @@ class MainWindow(QMainWindow):
         self.ui.actionSet_Dark_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_DARK_MODE))
         self.ui.actionSet_Light_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_LIGHT_MODE))
         self.ui.actionChange_Font_Size.setText(QCoreApplication.translate(*AppStrings.ACTION_CHANGE_FONT_SIZE))
+        self.__initialized = False
