@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QMessageBox, QApplication
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 from PySide6.QtCore import QCoreApplication, QTranslator
+from PySide6.QtCore import Slot
 from Services.SpellCheckingHighLighter import SpellCheckingHighLighter
 from StyleFiles.AppThemes import AppTheme
 
@@ -15,12 +16,11 @@ from UIFiles.UIMainWindow import Ui_MainWindow
 from Services.TextEditorService import TextEditorService
 
 
-# Develop merged
+
 class MainWindow(QMainWindow):
     __fontSizeWindow = None
     # Criando instância do serviço antes de usá-lo
     __service = TextEditorService()
-    __initialized = False
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -57,7 +57,9 @@ class MainWindow(QMainWindow):
 
         # Spell Checker settings
 
-        self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
+        #self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
+
+        self.ui.plainTextEdit.document().modificationChanged.connect(self.__on_text_changed)
 
         # Messages for external windows
         self.Export_pdf = AppStrings.EXPORT_PDF
@@ -67,10 +69,14 @@ class MainWindow(QMainWindow):
         # actions from font size window
         # d = enchant.Dict("en_US")
 
-    def __on_text_changed(self):
-        if self.__initialized:
-            self.__service.on_text_changed()
-        self.__initialized = True
+    @Slot(bool)
+    def __on_text_changed(self, changed):
+
+        self.__service.on_text_changed(changed)
+
+
+        self.updateWindowTitle()
+
 
     def press_file_new(self):
         # creates new file and cleans plaintext
@@ -95,6 +101,7 @@ class MainWindow(QMainWindow):
         text = self.ui.plainTextEdit.toPlainText()
         if self.__service.file_exist():
             self.__service.save_file(text)
+            self.ui.plainTextEdit.document().setModified(False)
         else:
             self.pressFileSaveAs()
 
@@ -104,7 +111,11 @@ class MainWindow(QMainWindow):
         file_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate(*AppStrings.SAVING_FILE),
                                                    "Document", 'Text files (*.txt)')
 
-        self.__service.save_as(text, file_path)
+        if self.__service.save_as(text, file_path):
+            self.ui.plainTextEdit.document().setModified(False)
+
+        # print("Modificado? " + self.ui.plainTextEdit.document().isModified().__str__())
+
         self.updateWindowTitle()
 
     def pressFilePrint(self):
@@ -201,9 +212,15 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit.setFont(QFont('Arial', self.__fontSizeWindow.ui.spinBox.value()))
 
     def updateWindowTitle(self):
+
         if self.__service.file_exist():
             file_name = self.__service.get_file_name()
-            self.setWindowTitle(file_name)
+
+            if self.ui.plainTextEdit.document().isModified():
+
+                self.setWindowTitle(file_name + "*")
+            else: self.setWindowTitle(file_name)
+
 
     def set_language(self, lang):
 
@@ -265,4 +282,4 @@ class MainWindow(QMainWindow):
         self.ui.actionSet_Dark_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_DARK_MODE))
         self.ui.actionSet_Light_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_LIGHT_MODE))
         self.ui.actionChange_Font_Size.setText(QCoreApplication.translate(*AppStrings.ACTION_CHANGE_FONT_SIZE))
-        self.__initialized = False
+

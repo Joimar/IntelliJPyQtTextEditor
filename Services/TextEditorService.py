@@ -14,7 +14,10 @@ class TextEditorService:
         self._saved = False
         self._is_updating = False
 
-    def on_text_changed(self):
+    def on_text_changed(self, changed):
+        self._is_modified = changed
+
+
         if self._is_updating:
             return
 
@@ -54,10 +57,12 @@ class TextEditorService:
             self._saved = True
             self._file_path = file_path
             self._is_updating = False
+            return True
         else:
             self._saved = False
             self._is_modified = True
             self._is_updating = True
+            return False
 
     def file_exist(self):
         return FileManager.checkFile(self._file_path)
