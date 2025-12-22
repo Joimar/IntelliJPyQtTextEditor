@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.__is_updating = False
+
         self.highlighter = SpellCheckingHighLighter(self.ui.plainTextEdit.document())
         # File Actions
         self.ui.actionNew.triggered.connect(self.press_file_new)
@@ -73,7 +73,6 @@ class MainWindow(QMainWindow):
     def __on_text_changed(self, changed):
 
         self.__service.on_text_changed(changed)
-
 
         self.updateWindowTitle()
 
@@ -177,8 +176,8 @@ class MainWindow(QMainWindow):
 
             returnValue = box.exec()
             if returnValue == QMessageBox.StandardButton.Save:
-                self.__service.set_is_modified(False)
-                self.__service.set_save(True)
+
+                self.ui.plainTextEdit.document().setModified(False)
                 self.pressFileSave()
                 event.accept()
 
