@@ -16,7 +16,6 @@ from UIFiles.UIMainWindow import Ui_MainWindow
 from Services.TextEditorService import TextEditorService
 
 
-
 class MainWindow(QMainWindow):
     __fontSizeWindow = None
     # Criando instância do serviço antes de usá-lo
@@ -57,7 +56,7 @@ class MainWindow(QMainWindow):
 
         # Spell Checker settings
 
-        #self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
+        # self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
 
         self.ui.plainTextEdit.document().modificationChanged.connect(self.__on_text_changed)
 
@@ -75,7 +74,6 @@ class MainWindow(QMainWindow):
         self.__service.on_text_changed(changed)
 
         self.updateWindowTitle()
-
 
     def press_file_new(self):
         # creates new file and cleans plaintext
@@ -112,8 +110,6 @@ class MainWindow(QMainWindow):
 
         if self.__service.save_as(text, file_path):
             self.ui.plainTextEdit.document().setModified(False)
-
-        # print("Modificado? " + self.ui.plainTextEdit.document().isModified().__str__())
 
         self.updateWindowTitle()
 
@@ -218,8 +214,8 @@ class MainWindow(QMainWindow):
             if self.ui.plainTextEdit.document().isModified():
 
                 self.setWindowTitle(file_name + "*")
-            else: self.setWindowTitle(file_name)
-
+            else:
+                self.setWindowTitle(file_name)
 
     def set_language(self, lang):
 
@@ -281,4 +277,3 @@ class MainWindow(QMainWindow):
         self.ui.actionSet_Dark_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_DARK_MODE))
         self.ui.actionSet_Light_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_LIGHT_MODE))
         self.ui.actionChange_Font_Size.setText(QCoreApplication.translate(*AppStrings.ACTION_CHANGE_FONT_SIZE))
-
