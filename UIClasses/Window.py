@@ -9,6 +9,7 @@ from PySide6.QtCore import QCoreApplication, QTranslator
 from PySide6.QtCore import Slot
 from Services.SpellCheckingHighLighter import SpellCheckingHighLighter
 from StyleFiles.AppThemes import AppTheme
+from PySide6.QtCore import QSettings
 
 from UIClasses.FontSizeWindow import FontSizeWindow
 from UIFiles.UIMainWindow import Ui_MainWindow
@@ -26,6 +27,10 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # Persistent Settings
+        self.settings = QSettings("config.ini", QSettings.IniFormat)
+
 
         self.highlighter = SpellCheckingHighLighter(self.ui.plainTextEdit.document())
         # File Actions
@@ -51,12 +56,13 @@ class MainWindow(QMainWindow):
         self.ui.actionen.triggered.connect(lambda: self.set_language('en'))
         self.ui.actiones.triggered.connect(lambda: self.set_language('es'))
         self.ui.actionfr.triggered.connect(lambda: self.set_language('fr'))
-        self.ui.actionde.triggered.connect(lambda: self.set_language('de'))
+        self.ui.actionde.triggered.connect(lambda: self.set_language('de')) # German
         self.ui.actionru.triggered.connect(lambda: self.set_language('ru'))
 
-        # Spell Checker settings
+        # loading persistent settings
+        self.load_settings()
 
-        # self.ui.plainTextEdit.textChanged.connect(self.__on_text_changed)
+        # Spell Checker settings
 
         self.ui.plainTextEdit.document().modificationChanged.connect(self.__on_text_changed)
 
@@ -64,7 +70,7 @@ class MainWindow(QMainWindow):
         self.Export_pdf = AppStrings.EXPORT_PDF
 
         self.setWindowTitle("Text Editor")
-        self.set_language('en')
+
         # actions from font size window
         # d = enchant.Dict("en_US")
 
@@ -88,19 +94,19 @@ class MainWindow(QMainWindow):
                                                    QCoreApplication.translate(*AppStrings.OPEN_FILE), '', 'Text '
                                                                                                           'files '
                                                                                                           '(*.txt)')
-
+        # preciso fazer com que o conteudo do text chegue ao service
         text = self.__service.open_file(file_path)
+        # nao cabe ao Window averiguar se o texto esta vazio
         if text is not None:
             self.ui.plainTextEdit.setPlainText(text)
             self.updateWindowTitle()
 
     def pressFileSave(self):
         text = self.ui.plainTextEdit.toPlainText()
-        if self.__service.file_exist():
-            self.__service.save_file(text)
-            self.ui.plainTextEdit.document().setModified(False)
-        else:
+        if self.__service.save_file(text) is False:
             self.pressFileSaveAs()
+        else:
+            self.ui.plainTextEdit.document().setModified(False)
 
     def pressFileSaveAs(self):
         # save a file or modification when user clicks in save option
@@ -150,10 +156,12 @@ class MainWindow(QMainWindow):
     def pressAppearanceSetDarkMode(self):
 
         self.apply_stylesheet(AppTheme.DARK)
+        self.settings.setValue("theme", "dark")
 
     def pressAppearanceSetLightMode(self):
 
         self.apply_stylesheet(AppTheme.LIGHT)
+        self.settings.setValue("theme", "light")
 
     def apply_stylesheet(self, theme: AppTheme):
         """Apply a specific style to the application."""
@@ -256,6 +264,8 @@ class MainWindow(QMainWindow):
         else:
             self.highlighter.set_language(lang)
 
+        self.settings.setValue("language", lang)
+
     def retranslateUi(self):
         self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
 
@@ -277,3 +287,15 @@ class MainWindow(QMainWindow):
         self.ui.actionSet_Dark_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_DARK_MODE))
         self.ui.actionSet_Light_Mode.setText(QCoreApplication.translate(*AppStrings.ACTION_SET_LIGHT_MODE))
         self.ui.actionChange_Font_Size.setText(QCoreApplication.translate(*AppStrings.ACTION_CHANGE_FONT_SIZE))
+
+    def load_settings(self):
+
+        language = self.settings.value("language", "en")
+        self.set_language(language)
+
+        theme = self.settings.value("theme", "light")
+
+        if theme == "dark":
+            self.apply_stylesheet(AppTheme.DARK)
+        else:
+            self.apply_stylesheet(AppTheme.LIGHT)

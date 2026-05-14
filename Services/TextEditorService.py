@@ -9,6 +9,7 @@ class TextEditorService:
 
         self._file_path = ""
         self._is_modified = False
+        self.__text = ""
 
     def on_text_changed(self, changed):
         self._is_modified = changed
@@ -26,13 +27,17 @@ class TextEditorService:
         return None
 
     def save_file(self, text):
+        if self.file_exist():
+            FileManager.updatingFile(self._file_path, text)
+            self.set_text(text)
+            return True
 
-        FileManager.updatingFile(self._file_path, text)
+        return False
 
     def save_as(self, text, file_path):
         if file_path:
             FileManager.append(file_path, text)
-
+            self.set_text(text)
             self._file_path = file_path
             return True
         else:
@@ -42,7 +47,7 @@ class TextEditorService:
         return FileManager.checkFile(self._file_path)
 
     def set_text(self, text):
-        # self._current_text = text
+        self.__text = text
         self._is_modified = True
 
     def get_file_path(self):
