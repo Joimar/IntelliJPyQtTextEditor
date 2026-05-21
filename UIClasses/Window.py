@@ -214,6 +214,9 @@ class MainWindow(QMainWindow):
     def updateFontSize(self):
         self.ui.plainTextEdit.setFont(QFont('Arial', self.__fontSizeWindow.ui.spinBox.value()))
 
+        self.settings.setValue("font_size", self.__fontSizeWindow.ui.spinBox.value())
+
+
     def updateWindowTitle(self):
 
         if self.__service.file_exist():
@@ -299,3 +302,10 @@ class MainWindow(QMainWindow):
             self.apply_stylesheet(AppTheme.DARK)
         else:
             self.apply_stylesheet(AppTheme.LIGHT)
+
+        font = self.ui.plainTextEdit.font()
+
+        font_size = int(self.settings.value("font_size", 11))
+        font.setPointSize(font_size)
+
+        self.ui.plainTextEdit.setFont(font)

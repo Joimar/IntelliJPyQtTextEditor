@@ -13,9 +13,10 @@ class FontSizeWindow(QMainWindow):
         self.ui = Ui_FontSize()
         self.ui.setupUi(self)
 
-        #self.ui.spinBox.valueChanged.connect(self.__updateTextSize(plainText))
+        self.ui.spinBox.valueChanged.connect(self.__updateTextSize(plainText))
 
     def __updateTextSize(self, plainText: QPlainTextEdit):
         plainText.setFont(QFont('Arial', self.ui.spinBox.value()))
         print("VRAU")
+        print(self.ui.spinBox.value())
         # plainText.font().setPointSize(self.ui.spinBox.value())
