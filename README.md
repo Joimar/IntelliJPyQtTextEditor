@@ -27,7 +27,7 @@ pyside6-lrelease Translations/pt_BR.ts -qm pt_BR.qm
 
 ### How the translation system is working here
 
-The way I was using `.ts` before was not efficient: the `.ts` file needed to know exactly the line of code where I inserted `QCoreApplication.translate(Context, String str)` (`Context` being the name of the class with message and `str` is the message). However, if I need to provide the line of code of the string that needs to switch I'd need to update `.ts` every single time I would change anything in MainWindow class (Window.py file).
+The way I was using `.ts` before was not efficient: the `.ts` file needed to know exactly the line of code where I inserted `QCoreApplication.translate(Context, String str)` (`Context` being the name of the class with message and `str` is the message). However, if I need to provide the line of code of the string that needs to switch language, I'd need to update `.ts` every single time I would change anything in MainWindow class (Window.py file).
 
 Well, I've created `AppStrings.py` to be the file with all strings and in `.ts` file it is necessary only the file name `AppStrings.py` to indicate the source from where to get the string and its id like below:
 
@@ -50,6 +50,49 @@ Now is like:
 ```python
 self.ui.menuFile.setTitle(QCoreApplication.translate(*AppStrings.MENU_FILE))
 ```
+
+It is better now, 'cause if I change anything in `MainWindow`, I don't need to change `.ts` file, once `.ts` file no longer needs to know the line in `MainWindow` it has to check, now `.ts` gets information from `AppStrings`. Take a look on a example in `AppStrings`:
+
+```python
+class AppStrings:
+    # MainWindow
+    WINDOW_TITLE = ("MainWindow", "Text Editor")
+    OPEN_FILE = ("MainWindow", "Open file")
+    SAVING_FILE = ("MainWindow", "Saving File")
+    EXPORT_PDF = ("MainWindow", "Export PDF")
+    EXPORT_COMPLETED = ("MainWindow", "Export Completed")
+
+    # ExportDialog
+    FILE_SAVED = ("ExportDialog", "File saved in {0}")
+    EXPORT_ERROR = ("ExportDialog", "Error of Exporting")
+    EXPORT_ERROR_MESSAGE = ("ExportDialog", "Not possible to export PDF file.\nError: ")
+
+    # Close Event
+    PROGRAM_NAME = ("MainWindow", "Text Editor")
+    SAVE_CHANGES_QUESTION = ("MainWindow", "Do you want to save the changes?")
+
+    # Menus
+    MENU_FILE = ("MainWindow", "File")
+    MENU_EDIT = ("MainWindow", "Edit")
+    MENU_APPEARANCE = ("MainWindow", "Appearance")
+    MENU_LANGUAGE = ("MainWindow", "Language")
+```
+
+In this case, if `.ts` needs to work with translation of "Edit Menu", it only needs to indicate `AppStrings.py` file and the id "menu_edit", and then uses the tag `source` to point the text to be translated and then uses the tag `translation`, like in a previous example in this README file. 
+
+In short words: `.ts` uses `AppStrings.py` as indication of the texts that can be translated without needing to know any line number, so `MainWindow` can be changed. See below how `MainWindow` uses `AppStrings.py`:
+
+```python
+def retranslateUi(self):
+        self.setWindowTitle(QCoreApplication.translate("MainWindow", "Text Editor"))
+
+        self.Export_pdf = AppStrings.EXPORT_PDF
+
+        self.ui.menuFile.setTitle(QCoreApplication.translate(*AppStrings.MENU_FILE))
+        self.ui.actionNew.setText(QCoreApplication.translate(*AppStrings.ACTION_NEW))
+```
+
+`AppStrings.py` has the string content, and differently from the way I was doing before, if I make any change that would make any string usage move to another line, `.ts` does not need to change anything in itself. Previously `MainWindow` was using strings created inside the class, and once `.ts` was indicating directly `MainWindow`, every change of line was a nightmare.  
 
 ## Class Diagram here: (In Progress)
 
