@@ -31,7 +31,6 @@ class MainWindow(QMainWindow):
         # Persistent Settings
         self.settings = QSettings("config.ini", QSettings.IniFormat)
 
-
         self.highlighter = SpellCheckingHighLighter(self.ui.plainTextEdit.document())
         # File Actions
         self.ui.actionNew.triggered.connect(self.press_file_new)
@@ -56,7 +55,7 @@ class MainWindow(QMainWindow):
         self.ui.actionen.triggered.connect(lambda: self.set_language('en'))
         self.ui.actiones.triggered.connect(lambda: self.set_language('es'))
         self.ui.actionfr.triggered.connect(lambda: self.set_language('fr'))
-        self.ui.actionde.triggered.connect(lambda: self.set_language('de')) # German
+        self.ui.actionde.triggered.connect(lambda: self.set_language('de'))  # German
         self.ui.actionru.triggered.connect(lambda: self.set_language('ru'))
 
         # loading persistent settings
@@ -203,10 +202,13 @@ class MainWindow(QMainWindow):
 
     def pressAppearanceChangeFont(self):
 
-        self.__fontSizeWindow = FontSizeWindow(self.ui.plainTextEdit)
-        self.__fontSizeWindow.__fontSize = self.ui.plainTextEdit.fontInfo().pointSize()
+        self.__fontSizeWindow = FontSizeWindow(self.ui.plainTextEdit, int(self.settings.value("font_size", 11)))
 
-        self.__fontSizeWindow.ui.spinBox.setValue(self.ui.plainTextEdit.fontInfo().pointSize())
+        print("Font Size: " + str(self.ui.plainTextEdit.fontInfo().pointSize()))
+
+        self.__fontSizeWindow.ui.spinBox.setValue(int(self.settings.value("font_size", 11)))
+
+
         self.__fontSizeWindow.ui.spinBox.valueChanged.connect(self.updateFontSize)
 
         self.__fontSizeWindow.show()
@@ -215,7 +217,6 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit.setFont(QFont('Arial', self.__fontSizeWindow.ui.spinBox.value()))
 
         self.settings.setValue("font_size", self.__fontSizeWindow.ui.spinBox.value())
-
 
     def updateWindowTitle(self):
 
@@ -255,6 +256,7 @@ class MainWindow(QMainWindow):
             # Retraduz strings manuais
             # self.retranslateUi()
 
+        # load specific .qm file (qtbase_en.qm for example) to handle native windows such as Dialog Windows
         if os.path.exists(translation_native_file) and self._qt_base_translator.load(translation_native_file):
             app.installTranslator(self._qt_base_translator)
             print(f"Idioma alterado para o padrão: qtbase_{lang}")
