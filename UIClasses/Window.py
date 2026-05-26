@@ -2,7 +2,7 @@
 import os
 from Utils.AppStrings import AppStrings
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
-from PySide6.QtWidgets import QMessageBox, QApplication
+from PySide6.QtWidgets import QMessageBox, QApplication, QStyle
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 from PySide6.QtCore import QCoreApplication, QTranslator
@@ -202,12 +202,11 @@ class MainWindow(QMainWindow):
 
     def pressAppearanceChangeFont(self):
 
-        self.__fontSizeWindow = FontSizeWindow(self.ui.plainTextEdit, int(self.settings.value("font_size", 11)))
+        self.__fontSizeWindow = FontSizeWindow(self.ui.plainTextEdit)
 
-        print("Font Size: " + str(self.ui.plainTextEdit.fontInfo().pointSize()))
-
+        # print("Font Size: " + str(self.ui.plainTextEdit.fontInfo().pointSize()))
+        # print("Font Style: " + str(self.ui.plainTextEdit.fontInfo().style()))
         self.__fontSizeWindow.ui.spinBox.setValue(int(self.settings.value("font_size", 11)))
-
 
         self.__fontSizeWindow.ui.spinBox.valueChanged.connect(self.updateFontSize)
 
@@ -305,9 +304,4 @@ class MainWindow(QMainWindow):
         else:
             self.apply_stylesheet(AppTheme.LIGHT)
 
-        font = self.ui.plainTextEdit.font()
-
-        font_size = int(self.settings.value("font_size", 11))
-        font.setPointSize(font_size)
-
-        self.ui.plainTextEdit.setFont(font)
+        self.ui.plainTextEdit.setFont(QFont("Arial", int(self.settings.value("font_size", 11))))
