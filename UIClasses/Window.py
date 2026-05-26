@@ -202,7 +202,7 @@ class MainWindow(QMainWindow):
 
     def pressAppearanceChangeFont(self):
 
-        self.__fontSizeWindow = FontSizeWindow(self.ui.plainTextEdit)
+        self.__fontSizeWindow = FontSizeWindow()
 
         # print("Font Size: " + str(self.ui.plainTextEdit.fontInfo().pointSize()))
         # print("Font Style: " + str(self.ui.plainTextEdit.fontInfo().style()))
